@@ -5,8 +5,8 @@ console and manage it from your phone. Built with Expo (React Native).
 
 > **Status:** early work. The app installs and updates BatoX on a console, connects to one that
 > already runs it, shows how each console is doing, and brings BatoX's features over one by one:
-> the games (and playing one on the TV), messages on the TV, the play timer and closing the
-> running game so far. It isn't in the App Store or Google Play yet.
+> the games (and playing one on the TV), uploading games and music, messages on the TV, the play
+> timer and closing the running game so far. It isn't in the App Store or Google Play yet.
 
 ## What it does
 
@@ -29,11 +29,17 @@ console and manage it from your phone. Built with Expo (React Native).
    accents), then a game: its cover and what EmulationStation scraped (description, publisher,
    genre, players, rating, times played), and **Play on the TV**. When another game is running,
    the app asks before closing it.
-5. **Send a message** to the TV, even during a game: quick messages, and where, how long and
+5. **Upload games** from the phone: choose the system (a search over Batocera's systems), pick
+   files with the system's file picker, and they go one at a time to its folder, each with its
+   progress. Files the system doesn't take, and games already on the console, are skipped with
+   the reason.
+6. **Music**: the menus' background music, by folder (main, or a system's); upload tracks the same
+   way, or delete one.
+7. **Send a message** to the TV, even during a game: quick messages, and where, how long and
    under which title it shows, as on the web panel's Messages screen.
-6. **Play timer**: a countdown on the TV, then BatoX closes the game, turns the console off or only
+8. **Play timer**: a countdown on the TV, then BatoX closes the game, turns the console off or only
    shows that the time is up; add 5 or 15 minutes, or cancel it.
-7. **Close the game** that is running, from the console's screen.
+9. **Close the game** that is running, from the console's screen.
 
 ## What comes next
 

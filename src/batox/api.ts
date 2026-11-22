@@ -178,3 +178,15 @@ export const launchRom = (e: Endpoint, id: string, replace = false) =>
 export function mediaSource(e: Endpoint, url: string): { uri: string; headers: Record<string, string> } {
   return { uri: `http://${urlHost(e.host)}:${e.port}/api/v1${url}`, headers: e.token ? { Authorization: `Bearer ${e.token}` } : {} };
 }
+
+// --- Uploads and music ---------------------------------------------------------------------------
+
+export type RomSystem = { name: string; fullName: string; dir: string; extensions: string[]; romCount: number };
+
+export type MusicTrack = { name: string; folder: string; path: string; size: number; modified: string };
+export type MusicLibrary = { dir: string; folders: string[]; tracks: MusicTrack[]; extensions: string[] };
+
+// Every system Batocera knows, for choosing where an upload goes
+export const getSystems = (e: Endpoint) => request<RomSystem[]>(e, '/systems?all=true', { timeoutMs: 15000 });
+export const getMusic = (e: Endpoint) => request<MusicLibrary>(e, '/music');
+export const deleteMusic = (e: Endpoint, path: string) => request<{ status: string; path: string }>(e, `/music?path=${encodeURIComponent(path)}`, { method: 'DELETE' });

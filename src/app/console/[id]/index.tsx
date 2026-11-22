@@ -180,6 +180,16 @@ export default function ConsoleScreen() {
               onPress={() => router.push({ pathname: '/console/[id]/games', params: { id } })}
             />
             <Tool
+              title="Upload games"
+              info="From this phone to a system's folder"
+              onPress={() => router.push({ pathname: '/console/[id]/upload', params: { id } })}
+            />
+            <Tool
+              title="Music"
+              info="The menus' background music"
+              onPress={() => router.push({ pathname: '/console/[id]/music', params: { id } })}
+            />
+            <Tool
               title="Send a message"
               info="To the TV, even during a game"
               onPress={() => router.push({ pathname: '/console/[id]/message', params: { id } })}

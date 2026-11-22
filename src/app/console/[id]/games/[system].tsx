@@ -11,7 +11,7 @@ import { colors, fonts, space, type } from '@/theme/tokens';
 
 // Search ignores case and accents: "pokemon" finds "Pokémon"
 function fold(text: string): string {
-  return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
 // The games of one system, with a search by name

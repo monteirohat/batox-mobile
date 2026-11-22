@@ -47,6 +47,8 @@ export default function RootLayout() {
         <Stack.Screen name="console/[id]/games/index" options={{ title: 'Games' }} />
         <Stack.Screen name="console/[id]/games/[system]" options={{ title: 'Games' }} />
         <Stack.Screen name="console/[id]/game/[rom]" options={{ title: 'Game' }} />
+        <Stack.Screen name="console/[id]/upload" options={{ title: 'Upload games' }} />
+        <Stack.Screen name="console/[id]/music" options={{ title: 'Music' }} />
       </Stack>
     </>
   );

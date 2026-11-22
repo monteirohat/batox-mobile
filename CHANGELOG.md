@@ -58,3 +58,11 @@ All notable changes to this project are documented here. The format follows
   description, publisher, genre, players, rating, times played and play time. Play on the TV
   (`/roms/{id}/launch`) opens it on the console; when another game runs, the app asks before
   replacing it.
+- Upload games (`POST /roms`): the system (searched among all of Batocera's), an optional language,
+  replace or keep files with the same name, then the system's file picker; the files go one at a
+  time with their progress, and those the system doesn't take or that are already on the console
+  are skipped with the reason.
+- Music (`/music`): the tracks by folder, uploading to the main folder or a system's, and deleting
+  a track.
+- Uploaded files keep their real names, spaces and accents included: the app sends the name as
+  `filename*=UTF-8''...` (RFC 5987), since React Native's FormData sends it percent-encoded.
