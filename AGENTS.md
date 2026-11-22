@@ -51,6 +51,10 @@ This app is BatoX's mobile companion. Related projects, side by side in the same
   console downloads the release itself instead of the computer uploading it.
 - `batox-theme`: the look's source, in `docs/STYLE.md`.
 
+SSH: the app has its own client in `src/ssh/` (TypeScript on @noble crypto) over the native TCP
+module in `modules/batox-tcp/` (Kotlin and Swift, no third-party libraries). Test protocol changes
+against a real console with `tools/ssh-smoke.ts` before building the app.
+
 Rules for this repository:
 
 - Use the tokens in `src/theme/tokens.ts`; never write a color, size or font in a screen.

@@ -18,3 +18,13 @@ All notable changes to this project are documented here. The format follows
 - Plain HTTP to the local network allowed (Android cleartext traffic, iOS local networking), for
   BatoX's API on the console.
 - CI: type-check, lint and expo-doctor on every push.
+- An SSH client in TypeScript (`src/ssh/`), on the @noble cryptography: curve25519-sha256, Ed25519
+  and ECDSA P-256 host keys, AES-CTR with HMAC-SHA-256, strict key exchange, password and
+  keyboard-interactive sign-in, and commands run with their stdout, stderr and exit code. Tested
+  against Batocera's Dropbear.
+- A native TCP module (`modules/batox-tcp`): `java.net.Socket` on Android, `Network.framework` on
+  iOS. The app now runs in a development build instead of Expo Go.
+- The installer's first step: the console's address and SSH login, then "Check console" shows its
+  model, Batocera version, processor, the BatoX it runs and its SSH host key, with the same
+  checks and messages as the BatoX Installer.
+- Unit tests (`npm test`) and a smoke test against a real console (`tools/ssh-smoke.ts`).

@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["BatoxTcpModule"]
+  },
+  "android": {
+    "modules": ["io.github.monteirohat.batox.tcp.BatoxTcpModule"]
+  }
+}
