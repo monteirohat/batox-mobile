@@ -44,6 +44,9 @@ export default function RootLayout() {
         <Stack.Screen name="console/[id]/index" options={{ title: 'Console' }} />
         <Stack.Screen name="console/[id]/message" options={{ title: 'Message' }} />
         <Stack.Screen name="console/[id]/timer" options={{ title: 'Timer' }} />
+        <Stack.Screen name="console/[id]/games/index" options={{ title: 'Games' }} />
+        <Stack.Screen name="console/[id]/games/[system]" options={{ title: 'Games' }} />
+        <Stack.Screen name="console/[id]/game/[rom]" options={{ title: 'Game' }} />
       </Stack>
     </>
   );

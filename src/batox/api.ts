@@ -137,3 +137,44 @@ export const extendTimer = (e: Endpoint, seconds: number) => request<TimerStatus
 export const cancelTimer = (e: Endpoint) => request<{ cancelled: boolean }>(e, '/timer', { method: 'DELETE' });
 // Closes the running game at once; unsaved progress is lost
 export const quitGame = (e: Endpoint) => request<{ status: string; name: string }>(e, '/now-playing/quit', { method: 'POST' });
+
+// --- Systems and games ---------------------------------------------------------------------------
+
+export type ConsoleSystem = {
+  name: string;
+  fullName: string;
+  manufacturer?: string;
+  releaseYear?: number;
+  hardware?: string;
+  games: number;
+  played?: number;
+  favorites?: number;
+  hasLogo?: boolean;
+};
+
+export type Rom = { id: string; system: string; name: string; path: string; size: number; addedAt?: string };
+
+export type RomMedia = { kind: string; type: 'image' | 'video' | 'document' | 'file'; url: string };
+
+export type RomDetails = {
+  rom: Rom;
+  systemName: string;
+  scraped: boolean;
+  metadata: Record<string, string>;
+  media: RomMedia[];
+};
+
+export type LaunchResult = { status: 'playing' | 'requested'; name: string; replaced?: string };
+
+export const getConsoles = (e: Endpoint) => request<{ emulationStation: boolean; consoles: ConsoleSystem[] }>(e, '/consoles', { timeoutMs: 15000 });
+export const getSystemRoms = (e: Endpoint, system: string) => request<Rom[]>(e, `/roms/system/${encodeURIComponent(system)}`, { timeoutMs: 30000 });
+export const getRomDetails = (e: Endpoint, id: string) => request<RomDetails>(e, `/roms/${encodeURIComponent(id)}/details`);
+// Opens the game on the TV. 409 when another game runs; replace closes it first (its unsaved
+// progress is lost).
+export const launchRom = (e: Endpoint, id: string, replace = false) =>
+  request<LaunchResult>(e, `/roms/${encodeURIComponent(id)}/launch${replace ? '?replace=true' : ''}`, { method: 'POST', timeoutMs: 30000 });
+
+// A media file of the API (a cover, a logo) as an image source, with the token
+export function mediaSource(e: Endpoint, url: string): { uri: string; headers: Record<string, string> } {
+  return { uri: `http://${urlHost(e.host)}:${e.port}/api/v1${url}`, headers: e.token ? { Authorization: `Bearer ${e.token}` } : {} };
+}

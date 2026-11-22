@@ -5,8 +5,8 @@ console and manage it from your phone. Built with Expo (React Native).
 
 > **Status:** early work. The app installs and updates BatoX on a console, connects to one that
 > already runs it, shows how each console is doing, and brings BatoX's features over one by one:
-> messages on the TV, the play timer and closing the running game so far. It isn't in the App
-> Store or Google Play yet.
+> the games (and playing one on the TV), messages on the TV, the play timer and closing the
+> running game so far. It isn't in the App Store or Google Play yet.
 
 ## What it does
 
@@ -25,11 +25,15 @@ console and manage it from your phone. Built with Expo (React Native).
    what is being played, refreshed every 15 seconds; from there, Open BatoX in the browser, change a
    refused token, or forget the console.
 
-4. **Send a message** to the TV, even during a game: quick messages, and where, how long and
+4. **Games**: the systems with games, then a system's games with a search (it ignores case and
+   accents), then a game: its cover and what EmulationStation scraped (description, publisher,
+   genre, players, rating, times played), and **Play on the TV**. When another game is running,
+   the app asks before closing it.
+5. **Send a message** to the TV, even during a game: quick messages, and where, how long and
    under which title it shows, as on the web panel's Messages screen.
-5. **Play timer**: a countdown on the TV, then BatoX closes the game, turns the console off or only
+6. **Play timer**: a countdown on the TV, then BatoX closes the game, turns the console off or only
    shows that the time is up; add 5 or 15 minutes, or cancel it.
-6. **Close the game** that is running, from the console's screen.
+7. **Close the game** that is running, from the console's screen.
 
 ## What comes next
 

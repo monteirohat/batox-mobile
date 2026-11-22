@@ -7,7 +7,7 @@ export function duration(seconds: number): string {
   const minutes = Math.floor((s % 3600) / 60);
   if (days > 0) return `${days} d ${hours} h`;
   if (hours > 0) return `${hours} h ${minutes} min`;
-  return `${minutes} min`;
+  return minutes > 0 ? `${minutes} min` : 'under a minute';
 }
 
 export function bytes(n: number): string {
@@ -33,4 +33,23 @@ export function clock(seconds: number): string {
   const m = Math.floor((s % 3600) / 60);
   const ss = String(s % 60).padStart(2, '0');
   return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
+}
+
+// A game's file name without its extension: "Golden Sun (USA).gba" -> "Golden Sun (USA)"
+export function gameName(fileName: string): string {
+  return fileName.replace(/\.[A-Za-z0-9]{1,5}$/, '');
+}
+
+// EmulationStation's dates: "20010801T000000" -> 2001
+export function esYear(value: string | undefined): string | undefined {
+  const m = /^(\d{4})/.exec(value ?? '');
+  return m ? m[1] : undefined;
+}
+
+// EmulationStation's dates as a day: "20261122T204512" -> a local date
+export function esDate(value: string | undefined): string | undefined {
+  const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/.exec(value ?? '');
+  if (!m) return undefined;
+  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4]), Number(m[5]));
+  return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
 }

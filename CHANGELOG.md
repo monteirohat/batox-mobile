@@ -53,3 +53,8 @@ All notable changes to this project are documented here. The format follows
   console's screen shows the time left.
 - Close the running game from the console's screen (`POST /now-playing/quit`), after a warning
   that unsaved progress is lost.
+- Games: the systems that have games (`/consoles`), a system's games with a search that ignores
+  case and accents (`/roms/system/{system}`), and a game's page (`/roms/{id}/details`): its cover,
+  description, publisher, genre, players, rating, times played and play time. Play on the TV
+  (`/roms/{id}/launch`) opens it on the console; when another game runs, the app asks before
+  replacing it.

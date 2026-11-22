@@ -20,3 +20,4 @@ test('URLs and labels', () => {
   assert.equal(displayAddress({ host: 'batocera.local', port: 8080 }), 'batocera.local');
   assert.equal(displayAddress({ host: '10.0.0.2', port: 9000 }), '10.0.0.2:9000');
 });
+

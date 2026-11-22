@@ -175,6 +175,11 @@ export default function ConsoleScreen() {
         {snapshot ? (
           <View style={styles.tools}>
             <Tool
+              title="Games"
+              info="Browse the games and play one on the TV"
+              onPress={() => router.push({ pathname: '/console/[id]/games', params: { id } })}
+            />
+            <Tool
               title="Send a message"
               info="To the TV, even during a game"
               onPress={() => router.push({ pathname: '/console/[id]/message', params: { id } })}
