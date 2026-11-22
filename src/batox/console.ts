@@ -1,9 +1,8 @@
 // Looking at a Batocera console over SSH: the same checks as the BatoX Installer
 // (BatoX_Installer src/main/installer.ts), so both tell the same story.
 
-import { SshClient } from '@/ssh/client';
-import { openNativeSocket } from '@/ssh/native-socket';
-import type { OpenSocket } from '@/ssh/socket';
+import { SshClient } from '../ssh/client';
+import type { OpenSocket } from '../ssh/socket';
 
 export const APP_DIR = '/userdata/system/batox';
 const LEGACY_DIR = '/userdata/system/mymine';
@@ -46,13 +45,16 @@ function parseKeyValues(text: string): Record<string, string> {
   return out;
 }
 
-export async function connect(target: Target, openSocket: OpenSocket = openNativeSocket): Promise<SshClient> {
+// Opens an SSH session to the console. With expectedHostKey, refuses a console whose host key
+// changed since it was checked.
+export async function connect(target: Target, openSocket: OpenSocket, expectedHostKey?: string): Promise<SshClient> {
   return SshClient.connect({
     host: target.host.trim(),
     port: target.port ?? 22,
     username: target.username.trim(),
     password: target.password,
     openSocket,
+    checkHostKey: expectedHostKey ? (fingerprint) => fingerprint === expectedHostKey : undefined,
   });
 }
 
@@ -82,7 +84,7 @@ export async function inspect(ssh: SshClient, host: string): Promise<ConsoleInfo
 }
 
 // Connects, looks, and disconnects
-export async function inspectConsole(target: Target, openSocket?: OpenSocket): Promise<ConsoleInfo> {
+export async function inspectConsole(target: Target, openSocket: OpenSocket): Promise<ConsoleInfo> {
   const ssh = await connect(target, openSocket);
   try {
     return await inspect(ssh, target.host.trim());

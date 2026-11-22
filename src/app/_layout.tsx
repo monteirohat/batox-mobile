@@ -5,8 +5,13 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { View } from 'react-native';
 
 import { colors, fonts } from '@/theme/tokens';
+
+// The bar over a screen: dark like the theme's top bar, so content scrolling under it stays out of
+// the way of the title
+const HeaderBackground = () => <View style={{ flex: 1, backgroundColor: colors.header }} />;
 
 // The splash (the wordmark on the dark background) stays until the fonts are in, then fades
 SplashScreen.preventAutoHideAsync();
@@ -27,6 +32,7 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerTransparent: true,
+          headerBackground: HeaderBackground,
           headerTintColor: colors.ink,
           headerTitleStyle: { fontFamily: fonts.regular },
           headerBackButtonDisplayMode: 'minimal',

@@ -3,18 +3,24 @@
 BatoX for iOS and Android: install [BatoX](https://github.com/monteirohat/BatoX) on your Batocera
 console and manage it from your phone. Built with Expo (React Native).
 
-> **Status:** early work. The app has its look, its splash screen and its own SSH client: it already
-> reaches a console and checks it, as the BatoX Installer's first step does. Choosing a version,
-> installing and connecting to BatoX come next. It isn't in the App Store or Google Play yet.
+> **Status:** early work. The app installs and updates BatoX on a console, as the BatoX Installer
+> does; connecting to an installed BatoX and its features come next. It isn't in the App Store or
+> Google Play yet.
 
-## What it will do
+## What it does
 
 1. **Install BatoX** on a Batocera console, as the
    [BatoX Installer](https://github.com/monteirohat/BatoX_Installer) does on a computer: type the
-   console's address, sign in with its SSH login, pick a version. The console downloads BatoX from
-   GitHub and installs it; the app shows the address and keeps the access token.
-2. **Connect** to a console that already runs BatoX, with its address and token.
-3. **Manage it**, bringing BatoX's features over one by one through its
+   console's address and SSH login, check the console, pick a version (the latest is chosen).
+   The console downloads the release from GitHub and checks its SHA-256 sums, then the app
+   installs the service, starts it, waits for it to answer, and shows the address and the access
+   token. The token is kept in the phone's secure storage (Keychain, Android Keystore). Updating
+   and reinstalling keep the console's token, settings and catalog.
+
+## What comes next
+
+1. **Connect** to a console that already runs BatoX, with its address and token.
+2. **Manage it**, bringing BatoX's features over one by one through its
    [API](https://github.com/monteirohat/BatoX/blob/main/docs/api.md): the console's status, messages
    on the TV, the play timer, what's playing, the game list, uploads and settings.
 
@@ -52,12 +58,35 @@ npm run lint
 npm test             # unit tests of the SSH client's building blocks
 npm run doctor       # expo-doctor: dependency and config checks
 
-CONSOLE=192.168.0.10 npx tsx tools/ssh-smoke.ts   # the SSH client against a real console, from a computer
+CONSOLE=192.168.0.10 npx tsx tools/ssh-smoke.ts       # the SSH client against a real console, from a computer
+CONSOLE=192.168.0.10 npx tsx tools/install-smoke.ts   # the install steps against a real console (reinstalls BatoX)
 ```
 
 The app has native code of its own (the TCP module), so it runs in a development build, not in
 Expo Go. On a Mac whose default Java doesn't run, point `JAVA_HOME` at Android Studio's
 (`/Applications/Android Studio.app/Contents/jbr/Contents/Home`).
+
+### Builds with EAS
+
+iOS builds run on Expo's servers ([EAS Build](https://docs.expo.dev/build/introduction/)), with the
+profiles in [eas.json](eas.json). Once, sign in and link the project (this adds its EAS id to
+`app.json`):
+
+```bash
+npx eas-cli@latest login
+npx eas-cli@latest init
+```
+
+Then:
+
+```bash
+npx eas-cli@latest build --profile development-simulator --platform ios   # for the iOS simulator; no Apple account needed
+npx eas-cli@latest build --profile development --platform android         # an APK to install on an Android phone
+npx eas-cli@latest build --profile development --platform ios             # for an iPhone: needs the Apple Developer Program,
+                                                                          # and the phone registered with `eas device:create`
+```
+
+A development build loads the JavaScript from `npm start` on the computer, on the same network.
 
 - Screens are in `src/app/` (Expo Router: one file per screen); components in `src/components/`.
 - Add packages with `npx expo install <package>`, so their versions match the Expo SDK.

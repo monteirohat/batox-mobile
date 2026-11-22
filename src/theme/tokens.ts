@@ -10,6 +10,8 @@ export const colors = {
   surface2: 'rgba(30, 25, 64, 0.84)',
   surfaceSolid: '#15122B',
   strip: '#1E1940',
+  // The bar at the top of a screen, over the picture
+  header: '#050B1A',
   line: 'rgba(255, 255, 255, 0.12)',
   outline: 'rgba(255, 255, 255, 0.38)',
   // The selected surface, and the white frame around it

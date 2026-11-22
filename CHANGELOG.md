@@ -28,3 +28,13 @@ All notable changes to this project are documented here. The format follows
   model, Batocera version, processor, the BatoX it runs and its SSH host key, with the same
   checks and messages as the BatoX Installer.
 - Unit tests (`npm test`) and a smoke test against a real console (`tools/ssh-smoke.ts`).
+- Installing and updating BatoX: pick a version (the latest by default, or one of the last twelve),
+  then the steps as the BatoX Installer runs them, each shown as it goes, with the download's
+  progress. The console downloads the release from GitHub itself and checks its SHA-256 sums; an
+  existing config.json is kept, and a MyMine install is moved to BatoX. The install refuses a
+  console whose SSH host key changed since it was checked.
+- The result: BatoX's address with Open BatoX, and its access token with Copy token. The console
+  and its token are kept in the phone's secure storage for the next screens.
+- EAS Build profiles (`eas.json`): development (a dev client), development-simulator (iOS
+  simulator), preview and production.
+- A smoke test of the install steps against a real console (`tools/install-smoke.ts`).
