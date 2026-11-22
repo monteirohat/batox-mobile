@@ -1,18 +1,18 @@
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Linking, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { consoleUrl, displayAddress } from '@/batox/address';
-import { ApiError, getDevice, getNowPlaying, getStatus, type Device, type NowPlaying, type Status } from '@/batox/api';
+import { ApiError, getDevice, getNowPlaying, getStatus, getTimer, quitGame, type Device, type NowPlaying, type Status, type TimerStatus } from '@/batox/api';
 import { forgetConsole, getConsole, saveConsole, type SavedConsole } from '@/batox/consoles';
-import { bytes, duration, shortVersion } from '@/batox/format';
+import { bytes, clock, duration, shortVersion } from '@/batox/format';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Figure, Figures } from '@/components/figure';
 import { Plate } from '@/components/plate';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
-type Snapshot = { status: Status; device: Device; nowPlaying: NowPlaying | null };
+type Snapshot = { status: Status; device: Device; nowPlaying: NowPlaying | null; timer: TimerStatus | null };
 
 // One console: how it is doing, what is playing, and the way to its BatoX. The features of the web
 // panel come here, one by one.
@@ -32,8 +32,13 @@ export default function ConsoleScreen() {
       return;
     }
     try {
-      const [status, device, nowPlaying] = await Promise.all([getStatus(entry), getDevice(entry), getNowPlaying(entry).catch(() => null)]);
-      setSnapshot({ status, device, nowPlaying });
+      const [status, device, nowPlaying, timer] = await Promise.all([
+        getStatus(entry),
+        getDevice(entry),
+        getNowPlaying(entry).catch(() => null),
+        getTimer(entry).catch(() => null),
+      ]);
+      setSnapshot({ status, device, nowPlaying, timer });
       setError(null);
       // Keep the list's name and version current
       const name = device.model || entry.name;
@@ -58,6 +63,25 @@ export default function ConsoleScreen() {
     setRefreshing(true);
     await load();
     setRefreshing(false);
+  };
+
+  const closeGame = (name: string) => {
+    if (!saved) return;
+    Alert.alert(`Close ${name}?`, "The game closes right away. Progress that wasn't saved is lost.", [
+      { text: 'Keep playing', style: 'cancel' },
+      {
+        text: 'Close the game',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await quitGame(saved);
+          } catch (e) {
+            Alert.alert("Couldn't close the game", e instanceof Error ? e.message : String(e));
+          }
+          await load();
+        },
+      },
+    ]);
   };
 
   const forget = () => {
@@ -140,11 +164,28 @@ export default function ConsoleScreen() {
                   {game.systemName}
                   {game.seconds !== undefined ? `  ·  ${game.sinceKnown === false ? 'at least ' : ''}${duration(game.seconds)}` : ''}
                 </Text>
+                <Button danger label="Close the game" onPress={() => closeGame(game.name)} />
               </>
             ) : (
               <Text style={type.body}>{snapshot.nowPlaying?.available === false ? "EmulationStation isn't running." : 'Nothing is being played.'}</Text>
             )}
           </Plate>
+        ) : null}
+
+        {snapshot ? (
+          <View style={styles.tools}>
+            <Tool
+              title="Send a message"
+              info="To the TV, even during a game"
+              onPress={() => router.push({ pathname: '/console/[id]/message', params: { id } })}
+            />
+            <Tool
+              title="Play timer"
+              info={snapshot.timer?.active ? `Running: ${clock(snapshot.timer.remainingSeconds)} left` : 'A countdown on the TV, then the game closes'}
+              live={snapshot.timer?.active}
+              onPress={() => router.push({ pathname: '/console/[id]/timer', params: { id } })}
+            />
+          </View>
         ) : null}
 
         {saved ? (
@@ -155,6 +196,16 @@ export default function ConsoleScreen() {
         ) : null}
       </ScrollView>
     </Backdrop>
+  );
+}
+
+// A feature of the console, as a tile that opens its screen
+function Tool({ title, info, live, onPress }: { title: string; info: string; live?: boolean; onPress: () => void }) {
+  return (
+    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => [styles.tool, pressed && styles.toolPressed]}>
+      <Text style={styles.toolTitle}>{title}</Text>
+      <Text style={[styles.toolInfo, live && styles.toolLive]}>{info}</Text>
+    </Pressable>
   );
 }
 
@@ -169,4 +220,10 @@ const styles = StyleSheet.create({
   offline: { color: colors.danger, backgroundColor: 'rgba(252, 108, 105, 0.16)' },
   neutral: { color: colors.ink2, backgroundColor: colors.surface2 },
   actions: { gap: space.s, marginTop: space.m },
+  tools: { gap: 5 },
+  tool: { backgroundColor: colors.surface, padding: space.m, gap: 4, borderWidth: 2, borderColor: 'transparent' },
+  toolPressed: { backgroundColor: colors.selected, borderColor: colors.frame },
+  toolTitle: { fontFamily: fonts.regular, fontSize: 18, color: colors.ink },
+  toolInfo: { fontFamily: fonts.regular, fontSize: 14, color: colors.ink2 },
+  toolLive: { color: colors.accent },
 });

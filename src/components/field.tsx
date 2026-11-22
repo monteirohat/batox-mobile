@@ -13,7 +13,7 @@ export function Field({ label, ...input }: { label: string } & TextInputProps) {
         autoCapitalize="none"
         autoCorrect={false}
         {...input}
-        style={[styles.input, input.editable === false && styles.disabled]}
+        style={[styles.input, input.multiline && styles.multiline, input.editable === false && styles.disabled]}
       />
     </View>
   );
@@ -29,5 +29,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     fontSize: 16,
   },
+  multiline: { minHeight: 96, paddingTop: 12, paddingBottom: 12, textAlignVertical: 'top' },
   disabled: { opacity: 0.55 },
 });

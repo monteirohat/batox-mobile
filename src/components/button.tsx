@@ -7,10 +7,12 @@ type Props = {
   onPress: () => void;
   // The main action of a screen: the selected surface in its white frame. Others are a thin outline.
   primary?: boolean;
+  // An action that loses something (closing a game, cancelling a timer): red text and edge
+  danger?: boolean;
   disabled?: boolean;
 };
 
-export function Button({ label, onPress, primary, disabled }: Props) {
+export function Button({ label, onPress, primary, danger, disabled }: Props) {
   return (
     <Pressable
       accessibilityRole="button"
@@ -20,10 +22,11 @@ export function Button({ label, onPress, primary, disabled }: Props) {
       style={({ pressed }) => [
         styles.base,
         primary && styles.primary,
-        pressed && (primary ? styles.primaryPressed : styles.pressed),
+        danger && styles.danger,
+        pressed && (primary ? styles.primaryPressed : danger ? styles.dangerPressed : styles.pressed),
         disabled && styles.disabled,
       ]}>
-      <Text style={[type.button, primary && styles.primaryText]}>{label}</Text>
+      <Text style={[type.button, primary && styles.primaryText, danger && styles.dangerText]}>{label}</Text>
     </Pressable>
   );
 }
@@ -41,5 +44,8 @@ const styles = StyleSheet.create({
   primary: { backgroundColor: colors.selected, borderColor: colors.frame, borderWidth: 2 },
   primaryPressed: { backgroundColor: colors.selectedPressed },
   primaryText: { fontFamily: fonts.semibold },
+  danger: { borderColor: 'rgba(252, 108, 105, 0.5)' },
+  dangerPressed: { backgroundColor: 'rgba(252, 108, 105, 0.16)' },
+  dangerText: { color: colors.danger },
   disabled: { opacity: 0.55 },
 });

@@ -97,3 +97,43 @@ export async function checkConnection(endpoint: Endpoint): Promise<{ status: Sta
   const device = await getDevice(endpoint).catch(() => null);
   return { status, device };
 }
+
+// --- EmulationStation, messages, timer, the running game (BatoX docs/api.md) -------------------
+
+export type EsStatus = {
+  available: boolean;
+  version?: string;
+  idle?: boolean;
+  // Whether messages and the timer can be drawn on top of games
+  overlay?: boolean;
+  runningGame?: { name: string; system: string; path: string } | null;
+};
+
+export type MessagePosition = 'top' | 'center' | 'bottom';
+export type Message = { text: string; title?: string; position?: MessagePosition; seconds?: number };
+export type MessageResult = { status: string; type: string; via: string; text: string };
+
+export type TimerAction = 'close-game' | 'shutdown' | 'none';
+export type TimerCorner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+export type TimerStatus = {
+  active: boolean;
+  action?: TimerAction;
+  corner?: TimerCorner;
+  title?: string;
+  startedAt?: string;
+  endsAt?: string;
+  totalSeconds: number;
+  remainingSeconds: number;
+  onScreen: boolean;
+  last?: { at: string; action: string; outcome?: string; error?: string };
+};
+
+export const getEsStatus = (e: Endpoint) => request<EsStatus>(e, '/emulationstation/status');
+export const sendMessage = (e: Endpoint, message: Message) => request<MessageResult>(e, '/messages/notify', { method: 'POST', body: message });
+export const getTimer = (e: Endpoint) => request<TimerStatus>(e, '/timer');
+export const startTimer = (e: Endpoint, timer: { seconds: number; action: TimerAction; corner: TimerCorner; title: string }) =>
+  request<TimerStatus>(e, '/timer', { method: 'POST', body: timer });
+export const extendTimer = (e: Endpoint, seconds: number) => request<TimerStatus>(e, '/timer/extend', { method: 'POST', body: { seconds } });
+export const cancelTimer = (e: Endpoint) => request<{ cancelled: boolean }>(e, '/timer', { method: 'DELETE' });
+// Closes the running game at once; unsaved progress is lost
+export const quitGame = (e: Endpoint) => request<{ status: string; name: string }>(e, '/now-playing/quit', { method: 'POST' });

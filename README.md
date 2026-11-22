@@ -4,8 +4,9 @@ BatoX for iOS and Android: install [BatoX](https://github.com/monteirohat/BatoX)
 console and manage it from your phone. Built with Expo (React Native).
 
 > **Status:** early work. The app installs and updates BatoX on a console, connects to one that
-> already runs it, and shows how each console is doing; BatoX's features come next, one by one.
-> It isn't in the App Store or Google Play yet.
+> already runs it, shows how each console is doing, and brings BatoX's features over one by one:
+> messages on the TV, the play timer and closing the running game so far. It isn't in the App
+> Store or Google Play yet.
 
 ## What it does
 
@@ -24,9 +25,15 @@ console and manage it from your phone. Built with Expo (React Native).
    what is being played, refreshed every 15 seconds; from there, Open BatoX in the browser, change a
    refused token, or forget the console.
 
+4. **Send a message** to the TV, even during a game: quick messages, and where, how long and
+   under which title it shows, as on the web panel's Messages screen.
+5. **Play timer**: a countdown on the TV, then BatoX closes the game, turns the console off or only
+   shows that the time is up; add 5 or 15 minutes, or cancel it.
+6. **Close the game** that is running, from the console's screen.
+
 ## What comes next
 
-1. **Manage a console**, bringing BatoX's features over one by one through its
+1. **More of BatoX's features**, bringing BatoX's features over one by one through its
    [API](https://github.com/monteirohat/BatoX/blob/main/docs/api.md): the console's status, messages
    on the TV, the play timer, what's playing, the game list, uploads and settings.
 

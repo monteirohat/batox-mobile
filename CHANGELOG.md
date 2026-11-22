@@ -45,3 +45,11 @@ All notable changes to this project are documented here. The format follows
   the game being played, refreshed every 15 seconds and by pulling down. From there: Open BatoX,
   change a refused token, or forget the console (it stays installed).
 - Finishing an install opens the new console's screen.
+- Send a message to the TV (`POST /messages/notify`): the console's state first (on the menu, or
+  the game being played), quick messages, then position, time on screen and title when the
+  screen overlay is there, and the messages sent from the app.
+- The play timer (`/timer`): duration (presets or minutes), what happens at zero, the corner of
+  the TV and the title; while it runs, its countdown, +5 and +15 minutes, and Cancel. The
+  console's screen shows the time left.
+- Close the running game from the console's screen (`POST /now-playing/quit`), after a warning
+  that unsaved progress is lost.
