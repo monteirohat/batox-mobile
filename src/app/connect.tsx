@@ -1,10 +1,11 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text } from 'react-native';
 
 import { displayAddress, parseAddress } from '@/batox/address';
 import { checkConnection } from '@/batox/api';
-import { consoleId, saveConsole } from '@/batox/consoles';
+import { saveConsole } from '@/batox/consoles';
+import { openConsole } from '@/batox/navigation';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Field } from '@/components/field';
@@ -32,7 +33,7 @@ export default function Connect() {
       const endpoint = { ...parsed, token: token.trim() };
       const { status, device } = await checkConnection(endpoint);
       await saveConsole({ ...endpoint, name: device?.model || device?.hostname || displayAddress(parsed), version: status.version });
-      router.replace({ pathname: '/console/[id]', params: { id: consoleId(parsed) } });
+      openConsole(parsed);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

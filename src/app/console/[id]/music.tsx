@@ -1,12 +1,11 @@
 import * as DocumentPicker from 'expo-document-picker';
-import { useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { deleteMusic, getMusic, getSystems, type MusicLibrary, type RomSystem } from '@/batox/api';
 import { bytes } from '@/batox/format';
 import { hasExtension } from '@/batox/upload';
-import { useSavedConsole } from '@/batox/use-console';
+import { useConsole } from '@/batox/console-context';
 import { useUploadQueue } from '@/batox/use-upload-queue';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
@@ -22,8 +21,7 @@ const OTHER = 'other system';
 // EmulationStation's background music: tracks in the main folder play for every system; tracks in a
 // folder named after a system play while browsing it
 export default function Music() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const saved = useSavedConsole(id);
+  const { saved } = useConsole();
   const [library, setLibrary] = useState<MusicLibrary | null>(null);
   const [systems, setSystems] = useState<RomSystem[]>([]);
   const [error, setError] = useState<string | null>(null);

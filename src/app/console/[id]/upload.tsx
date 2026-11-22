@@ -1,11 +1,10 @@
 import * as DocumentPicker from 'expo-document-picker';
-import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { getSystems, type RomSystem } from '@/batox/api';
 import { hasExtension } from '@/batox/upload';
-import { useSavedConsole } from '@/batox/use-console';
+import { useConsole } from '@/batox/console-context';
 import { useUploadQueue } from '@/batox/use-upload-queue';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
@@ -18,8 +17,7 @@ import { colors, fonts, space, type } from '@/theme/tokens';
 // Sends games from the phone to a system's folder on the console; EmulationStation reloads its game
 // lists by itself
 export default function UploadGames() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const saved = useSavedConsole(id);
+  const { saved } = useConsole();
   const [systems, setSystems] = useState<RomSystem[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [system, setSystem] = useState<RomSystem | null>(null);

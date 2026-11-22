@@ -16,6 +16,7 @@ export class ApiError extends Error {
 }
 
 export type Status = {
+  systemsSource?: string;
   service: string;
   status: string;
   version: string;
@@ -35,12 +36,14 @@ export type Device = {
   memTotalKB?: number;
   memAvailableKB?: number;
   disk?: { path: string; totalBytes: number; freeBytes: number; usedBytes: number };
+  kernel?: string;
+  loadAvg?: string[];
 };
 
 export type NowPlaying = {
   available: boolean;
   playing?: boolean;
-  game?: { name: string; system: string; systemName: string; romId?: string; hasCover?: boolean; playCount?: number; seconds?: number; sinceKnown?: boolean };
+  game?: { name: string; system: string; systemName: string; path?: string; romId?: string; hasCover?: boolean; playCount?: number; seconds?: number; sinceKnown?: boolean };
 };
 
 export async function request<T>(endpoint: Endpoint, path: string, options: { method?: string; body?: unknown; timeoutMs?: number } = {}): Promise<T> {
@@ -190,3 +193,7 @@ export type MusicLibrary = { dir: string; folders: string[]; tracks: MusicTrack[
 export const getSystems = (e: Endpoint) => request<RomSystem[]>(e, '/systems?all=true', { timeoutMs: 15000 });
 export const getMusic = (e: Endpoint) => request<MusicLibrary>(e, '/music');
 export const deleteMusic = (e: Endpoint, path: string) => request<{ status: string; path: string }>(e, `/music?path=${encodeURIComponent(path)}`, { method: 'DELETE' });
+
+// Restarts or turns off the console a second after answering (202)
+export const reboot = (e: Endpoint) => request<unknown>(e, '/reboot', { method: 'POST' });
+export const shutdown = (e: Endpoint) => request<unknown>(e, '/shutdown', { method: 'POST' });

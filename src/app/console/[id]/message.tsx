@@ -1,9 +1,9 @@
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { getEsStatus, sendMessage, type EsStatus, type MessagePosition } from '@/batox/api';
-import { useSavedConsole } from '@/batox/use-console';
+import { useConsole } from '@/batox/console-context';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Chips } from '@/components/chips';
@@ -26,8 +26,7 @@ type Sent = { text: string; title: string; how: string };
 
 // Sends a message to the TV, even in the middle of a game
 export default function MessageScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const saved = useSavedConsole(id);
+  const { saved } = useConsole();
   const [es, setEs] = useState<EsStatus | null>(null);
   const [esError, setEsError] = useState<string | null>(null);
   const [text, setText] = useState('');

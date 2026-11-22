@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { inspectConsole, type ConsoleInfo } from '@/batox/console';
-import { consoleId, saveConsole } from '@/batox/consoles';
+import { saveConsole } from '@/batox/consoles';
+import { openConsole } from '@/batox/navigation';
 import { listReleases, type Release } from '@/batox/github';
 import { STEPS, install, type InstallResult } from '@/batox/install';
 import { Backdrop } from '@/components/backdrop';
@@ -171,7 +172,7 @@ export default function Install() {
             <Button
               label="Done"
               onPress={() =>
-                result.token ? router.replace({ pathname: '/console/[id]', params: { id: consoleId(result) } }) : router.back()
+                result.token ? openConsole(result) : router.back()
               }
             />
           </View>

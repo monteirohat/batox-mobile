@@ -64,5 +64,12 @@ All notable changes to this project are documented here. The format follows
   are skipped with the reason.
 - Music (`/music`): the tracks by folder, uploading to the main folder or a system's, and deleting
   a track.
+- The console's home follows the web panel's dashboard: the console over the sunset with its
+  versions, Reboot and Shut down; the game being played with its cover, Details and Close game;
+  temperature, memory, storage and uptime with bars in green, yellow and red; and the BatoX service.
+- A side menu for the console's features (Home, Games, Upload games, Music, Messages, Timer), with
+  Open BatoX in the browser and Switch console. The features left the home screen.
+- The app opens on the console it used last. Switch console lists the saved consoles, to open
+  another, add one, install BatoX on one, or forget one.
 - Uploaded files keep their real names, spaces and accents included: the app sends the name as
   `filename*=UTF-8''...` (RFC 5987), since React Native's FormData sends it percent-encoded.

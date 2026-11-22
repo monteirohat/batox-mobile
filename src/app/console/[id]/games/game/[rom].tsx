@@ -5,7 +5,7 @@ import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 're
 
 import { ApiError, getRomDetails, launchRom, mediaSource, type RomDetails } from '@/batox/api';
 import { bytes, duration, esDate, esYear, gameName } from '@/batox/format';
-import { useSavedConsole } from '@/batox/use-console';
+import { useConsole } from '@/batox/console-context';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Figure, Figures } from '@/components/figure';
@@ -17,8 +17,8 @@ const COVER_ORDER = ['boxart', 'thumbnail', 'image', 'mix', 'titleshot', 'marque
 
 // One game: its picture, what EmulationStation scraped about it, and Play on the TV
 export default function Game() {
-  const { id, rom } = useLocalSearchParams<{ id: string; rom: string }>();
-  const saved = useSavedConsole(id);
+  const { saved } = useConsole();
+  const { rom } = useLocalSearchParams<{ rom: string }>();
   const [details, setDetails] = useState<RomDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [launching, setLaunching] = useState(false);

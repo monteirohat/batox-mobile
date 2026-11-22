@@ -4,7 +4,7 @@ import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, TextInput, Vi
 
 import { getSystemRoms, type Rom } from '@/batox/api';
 import { bytes, gameName } from '@/batox/format';
-import { useSavedConsole } from '@/batox/use-console';
+import { useConsole } from '@/batox/console-context';
 import { Backdrop } from '@/components/backdrop';
 import { Plate } from '@/components/plate';
 import { colors, fonts, space, type } from '@/theme/tokens';
@@ -16,8 +16,8 @@ function fold(text: string): string {
 
 // The games of one system, with a search by name
 export default function SystemGames() {
-  const { id, system, name } = useLocalSearchParams<{ id: string; system: string; name?: string }>();
-  const saved = useSavedConsole(id);
+  const { id, saved } = useConsole();
+  const { system, name } = useLocalSearchParams<{ system: string; name?: string }>();
   const [roms, setRoms] = useState<Rom[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
@@ -72,7 +72,7 @@ export default function SystemGames() {
           renderItem={({ item }) => (
             <Pressable
               accessibilityRole="button"
-              onPress={() => router.push({ pathname: '/console/[id]/game/[rom]', params: { id, rom: item.id } })}
+              onPress={() => router.push({ pathname: '/console/[id]/games/game/[rom]', params: { id, rom: item.id } })}
               style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
               <Text style={styles.name} numberOfLines={2}>
                 {item.name}

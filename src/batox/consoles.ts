@@ -46,3 +46,18 @@ export async function forgetConsole(id: string): Promise<void> {
   const rest = (await listConsoles()).filter((c) => consoleId(c) !== id);
   await SecureStore.setItemAsync(KEY, JSON.stringify(rest));
 }
+
+const CURRENT = 'batox.current';
+
+// The console the app opens on: the last one used
+export async function getCurrentConsoleId(): Promise<string | null> {
+  try {
+    return await SecureStore.getItemAsync(CURRENT);
+  } catch {
+    return null;
+  }
+}
+
+export async function setCurrentConsoleId(id: string): Promise<void> {
+  await SecureStore.setItemAsync(CURRENT, id).catch(() => undefined);
+}

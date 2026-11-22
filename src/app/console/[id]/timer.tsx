@@ -1,10 +1,10 @@
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { cancelTimer, extendTimer, getTimer, startTimer, type TimerAction, type TimerCorner, type TimerStatus } from '@/batox/api';
 import { clock, duration } from '@/batox/format';
-import { useSavedConsole } from '@/batox/use-console';
+import { useConsole } from '@/batox/console-context';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Chips } from '@/components/chips';
@@ -36,8 +36,7 @@ const CORNERS: { value: TimerCorner; label: string }[] = [
 // Limits play time: a countdown on the TV, then BatoX closes the game or turns the console off. The
 // timer runs inside BatoX, so it keeps going when the phone is put away.
 export default function TimerScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const saved = useSavedConsole(id);
+  const { saved } = useConsole();
   const [status, setStatus] = useState<TimerStatus | null>(null);
   const [fetchedAt, setFetchedAt] = useState(0);
   const [now, setNow] = useState(() => Date.now());

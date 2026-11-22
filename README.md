@@ -20,10 +20,11 @@ console and manage it from your phone. Built with Expo (React Native).
 
 2. **Connect** to a console that already runs BatoX, with its address and access token. The app
    checks both (BatoX answers, the token is taken) before keeping them.
-3. **Your consoles**: the home screen lists the consoles the phone knows. Each opens on how it is
-   doing (online, BatoX version, temperature, memory, free storage, how long it has been on) and
-   what is being played, refreshed every 15 seconds; from there, Open BatoX in the browser, change a
-   refused token, or forget the console.
+3. **A console's home**, as the web panel's dashboard: the console over the sunset (its model, BatoX
+   and Batocera versions, Reboot and Shut down), the game being played with its cover, and
+   temperature, memory, storage and uptime, each with a bar that turns yellow then red. The app
+   opens on the console it used last; a side menu holds the console's features, Open BatoX in the
+   browser, and Switch console (open another, add one, install BatoX on one, or forget one).
 
 4. **Games**: the systems with games, then a system's games with a search (it ignores case and
    accents), then a game: its cover and what EmulationStation scraped (description, publisher,

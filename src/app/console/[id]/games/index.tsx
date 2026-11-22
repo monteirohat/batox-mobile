@@ -1,17 +1,16 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text } from 'react-native';
 
 import { getConsoles, type ConsoleSystem } from '@/batox/api';
-import { useSavedConsole } from '@/batox/use-console';
+import { useConsole } from '@/batox/console-context';
 import { Backdrop } from '@/components/backdrop';
 import { Plate } from '@/components/plate';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // The systems that have games on the console, A to Z
 export default function Systems() {
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const saved = useSavedConsole(id);
+  const { id, saved } = useConsole();
   const [systems, setSystems] = useState<ConsoleSystem[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
