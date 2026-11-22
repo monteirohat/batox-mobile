@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { inspectConsole, type ConsoleInfo } from '@/batox/console';
-import { saveConsole } from '@/batox/consoles';
+import { consoleId, saveConsole } from '@/batox/consoles';
 import { listReleases, type Release } from '@/batox/github';
 import { STEPS, install, type InstallResult } from '@/batox/install';
 import { Backdrop } from '@/components/backdrop';
@@ -168,7 +168,12 @@ export default function Install() {
             {result.token ? <Text style={styles.note}>Kept on this phone, in its secure storage.</Text> : null}
           </Plate>
           <View style={styles.actions}>
-            <Button label="Done" onPress={() => router.back()} />
+            <Button
+              label="Done"
+              onPress={() =>
+                result.token ? router.replace({ pathname: '/console/[id]', params: { id: consoleId(result) } }) : router.back()
+              }
+            />
           </View>
         </ScrollView>
       </Backdrop>

@@ -38,3 +38,10 @@ All notable changes to this project are documented here. The format follows
 - EAS Build profiles (`eas.json`): development (a dev client), development-simulator (iOS
   simulator), preview and production.
 - A smoke test of the install steps against a real console (`tools/install-smoke.ts`).
+- Connect to a console that already runs BatoX: its address (`batocera.local`, an IP, with or without
+  a port or `http://`) and access token, checked against BatoX before they are kept.
+- The home screen lists the consoles this phone knows. A console opens on its state, from BatoX's
+  API: online or not, BatoX and Batocera versions, temperature, memory, free storage, time on, and
+  the game being played, refreshed every 15 seconds and by pulling down. From there: Open BatoX,
+  change a refused token, or forget the console (it stays installed).
+- Finishing an install opens the new console's screen.

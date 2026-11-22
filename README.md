@@ -3,9 +3,9 @@
 BatoX for iOS and Android: install [BatoX](https://github.com/monteirohat/BatoX) on your Batocera
 console and manage it from your phone. Built with Expo (React Native).
 
-> **Status:** early work. The app installs and updates BatoX on a console, as the BatoX Installer
-> does; connecting to an installed BatoX and its features come next. It isn't in the App Store or
-> Google Play yet.
+> **Status:** early work. The app installs and updates BatoX on a console, connects to one that
+> already runs it, and shows how each console is doing; BatoX's features come next, one by one.
+> It isn't in the App Store or Google Play yet.
 
 ## What it does
 
@@ -17,10 +17,16 @@ console and manage it from your phone. Built with Expo (React Native).
    token. The token is kept in the phone's secure storage (Keychain, Android Keystore). Updating
    and reinstalling keep the console's token, settings and catalog.
 
+2. **Connect** to a console that already runs BatoX, with its address and access token. The app
+   checks both (BatoX answers, the token is taken) before keeping them.
+3. **Your consoles**: the home screen lists the consoles the phone knows. Each opens on how it is
+   doing (online, BatoX version, temperature, memory, free storage, how long it has been on) and
+   what is being played, refreshed every 15 seconds; from there, Open BatoX in the browser, change a
+   refused token, or forget the console.
+
 ## What comes next
 
-1. **Connect** to a console that already runs BatoX, with its address and token.
-2. **Manage it**, bringing BatoX's features over one by one through its
+1. **Manage a console**, bringing BatoX's features over one by one through its
    [API](https://github.com/monteirohat/BatoX/blob/main/docs/api.md): the console's status, messages
    on the TV, the play timer, what's playing, the game list, uploads and settings.
 

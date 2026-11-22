@@ -5,6 +5,7 @@
 import type { SshClient } from '../ssh/client';
 import type { OpenSocket } from '../ssh/socket';
 import { APP_DIR, connect, inspect, type ConsoleInfo, type Target } from './console';
+import { consoleUrl } from './address';
 import type { Release } from './github';
 
 const SERVICE_DIR = '/userdata/system/services';
@@ -76,10 +77,6 @@ export function parseChecksums(text: string): Map<string, string> {
     if (m) sums.set(m[2].trim(), m[1].toLowerCase());
   }
   return sums;
-}
-
-function urlHost(host: string): string {
-  return host.includes(':') && !host.startsWith('[') ? `[${host}]` : host;
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -228,7 +225,7 @@ export async function install(options: InstallOptions): Promise<InstallResult> {
     await ssh.exec(`rm -rf ${DOWNLOAD_DIR}`).catch(() => undefined);
     done('check');
 
-    return { url: `http://${urlHost(host)}:${port}/`, host, port, token, version: release.tag, console: info, updatedFrom: info.installedVersion };
+    return { url: consoleUrl({ host, port }), host, port, token, version: release.tag, console: info, updatedFrom: info.installedVersion };
   } catch (error) {
     const message = signal?.aborted ? 'Installation cancelled.' : error instanceof Error ? error.message : String(error);
     report({ step: current, state: 'error', detail: message });

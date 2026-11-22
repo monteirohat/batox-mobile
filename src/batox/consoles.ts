@@ -15,6 +15,11 @@ export type SavedConsole = {
 
 const KEY = 'batox.consoles';
 
+// A console's id in routes: its address
+export function consoleId(c: { host: string; port: number }): string {
+  return `${c.host}:${c.port}`;
+}
+
 export async function listConsoles(): Promise<SavedConsole[]> {
   try {
     const text = await SecureStore.getItemAsync(KEY);
@@ -24,13 +29,20 @@ export async function listConsoles(): Promise<SavedConsole[]> {
   }
 }
 
-// Adds a console, or replaces the one at the same address
-export async function saveConsole(console: Omit<SavedConsole, 'savedAt'>): Promise<void> {
-  const others = (await listConsoles()).filter((c) => !(c.host === console.host && c.port === console.port));
-  await SecureStore.setItemAsync(KEY, JSON.stringify([{ ...console, savedAt: new Date().toISOString() }, ...others]));
+export async function getConsole(id: string): Promise<SavedConsole | null> {
+  return (await listConsoles()).find((c) => consoleId(c) === id) ?? null;
 }
 
-export async function forgetConsole(host: string, port: number): Promise<void> {
-  const rest = (await listConsoles()).filter((c) => !(c.host === host && c.port === port));
+// Adds a console, or replaces the one at the same address, keeping its place in the list
+export async function saveConsole(console: Omit<SavedConsole, 'savedAt'>): Promise<void> {
+  const all = await listConsoles();
+  const entry = { ...console, savedAt: new Date().toISOString() };
+  const at = all.findIndex((c) => consoleId(c) === consoleId(console));
+  const next = at >= 0 ? all.map((c, i) => (i === at ? { ...c, ...entry } : c)) : [entry, ...all];
+  await SecureStore.setItemAsync(KEY, JSON.stringify(next));
+}
+
+export async function forgetConsole(id: string): Promise<void> {
+  const rest = (await listConsoles()).filter((c) => consoleId(c) !== id);
   await SecureStore.setItemAsync(KEY, JSON.stringify(rest));
 }
