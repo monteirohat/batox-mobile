@@ -144,6 +144,8 @@ development, so a development build installs as another app).
   license.
 - Screenshots of the app in the README (`docs/assets/screenshots/`), and the Sponsor button
   (`.github/FUNDING.yml`) with a section to support the project, as in BatoX.
+- The splash's wordmark is no longer cut on Android 12 and later, which draw the splash icon in a
+  circle: it is 164 dp wide there (`android.imageWidth`), and stays 220 on iOS.
 - Scrolling screens span the whole width (`src/theme/page.ts`): the scroll bar sits at the screen's
   edge instead of inside the side margin, which made the screen look like a smaller box.
 - Batocera settings (`/batocera/settings`): the categories, general and per game system, with their
