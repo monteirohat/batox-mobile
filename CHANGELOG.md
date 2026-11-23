@@ -91,3 +91,22 @@ All notable changes to this project are documented here. The format follows
   a test sound, and Use the main screen's output when the sound comes out of another.
 - The side menu draws the web panel's icons (the puzzle piece for Extensions), with
   react-native-svg: a new native module, so a new development build is needed.
+- Consoles (`/consoles`): every system Batocera can emulate as a card with its logo
+  (`/consoles/{name}/logo`) drawn in white, its name, maker and year, games, favorites and type;
+  search, type (consoles, handhelds, arcade, computers, other), order (name, manufacturer, release
+  year, most games) and only those with games. A system's screen shows its details and
+  EmulationStation's statistics, its ROM folder and accepted files, with Show games and Upload
+  games (which opens with the system chosen).
+- Logos are whitened with SVG filters; those that come on a dark or gray plate lose it first, with
+  batox-theme's lists (newer than the web panel's: Odyssey2 and PrBoom were white blocks there).
+  Logos load one at a time and are kept while the app runs.
+- The Games screen shows its systems as the same cards, two per row.
+- Batocera settings (`/batocera/settings`): the categories, general and per game system, with their
+  keys; each key with its control (On and Off, a list, a range, a number, text, a password with
+  Show, a link to the Audio or Video screen); lists of more than six choices open a full screen
+  list with a search; a search over every key; keys that aren't set can be hidden; Add a key.
+- Library (`/library`): the address of library.json (Save, Forget), the library's games with their
+  covers, a search, a system, all or only those not on the console, select and download one at a
+  time with each game's state, and Replace for a file with the same name.
+- Access: the API address and token (Show, Copy token), Test the connection, Change the token, Open
+  BatoX in the browser, and the API's routes (`/about`).

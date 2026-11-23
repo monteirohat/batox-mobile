@@ -31,15 +31,19 @@ export default function ConsoleLayout() {
         }}>
         <Drawer.Screen name="index" options={{ title: 'Home' }} />
         <Drawer.Screen name="games" options={{ title: 'Games', headerShown: false }} />
+        <Drawer.Screen name="consoles" options={{ title: 'Consoles', headerShown: false }} />
         <Drawer.Screen name="upload" options={{ title: 'Upload games' }} />
+        <Drawer.Screen name="library" options={{ title: 'Library' }} />
         <Drawer.Screen name="music" options={{ title: 'Music' }} />
         <Drawer.Screen name="message" options={{ title: 'Messages' }} />
         <Drawer.Screen name="timer" options={{ title: 'Timer' }} />
         <Drawer.Screen name="es" options={{ title: 'EmulationStation' }} />
         <Drawer.Screen name="video" options={{ title: 'Video' }} />
         <Drawer.Screen name="audio" options={{ title: 'Audio' }} />
+        <Drawer.Screen name="batocera" options={{ title: 'Batocera settings', headerShown: false }} />
         <Drawer.Screen name="extensions" options={{ title: 'Extensions', headerShown: false }} />
         <Drawer.Screen name="logs" options={{ title: 'Logs' }} />
+        <Drawer.Screen name="access" options={{ title: 'Access' }} />
       </Drawer>
     </ConsoleProvider>
   );

@@ -6,7 +6,8 @@ console and manage it from your phone. Built with Expo (React Native).
 > **Status:** early work. The app installs and updates BatoX on a console, connects to one that
 > already runs it, shows how each console is doing, and brings BatoX's features over one by one:
 > the games (and playing one on the TV), uploading games and music, messages on the TV, the play
-> timer, closing the running game, EmulationStation, video, audio, extensions and logs so far. It isn't in the App Store or Google
+> timer, closing the running game, EmulationStation, video, audio, Batocera's settings, the game
+> library, consoles, extensions, logs and API access: every screen of the web panel. It isn't in the App Store or Google
 > Play yet.
 
 ## What it does
@@ -54,12 +55,24 @@ console and manage it from your phone. Built with Expo (React Native).
     offers.
 14. **Audio**: where the sound comes out (a screen over HDMI, the headphone jack, USB or
     Bluetooth), a test sound, and a shortcut when the sound isn't on the main screen.
+15. **Consoles**: every system Batocera can emulate, as cards with the system's logo in white
+    (the theme's, with the dark or gray plate some logos come on cut off, as on batox-theme), a
+    search, its type, the order, and only the ones with games; then a system's details, its ROM
+    folder and accepted files, Show games and Upload games. The Games screen uses the same cards.
+16. **Batocera settings**: every key in batocera.conf by category (general, then per game
+    system), each with its control: On and Off, a list (a long one opens a list with a search), a
+    range, a number, text or a password; a search over all keys; and a new key, such as a
+    per-game one.
+17. **Library**: download games from your own library (a library.json at an address you choose):
+    search, system, only those not on the console, one or many at a time, with covers.
+18. **Access**: the address and token the phone uses (show, copy, test, change), and the routes
+    of the console's BatoX.
 
 ## What comes next
 
-1. **More of BatoX's features**, bringing BatoX's features over one by one through its
-   [API](https://github.com/monteirohat/BatoX/blob/main/docs/api.md): the console's status, messages
-   on the TV, the play timer, what's playing, the game list, uploads and settings.
+1. **The stores**: builds with EAS for the App Store and Google Play.
+2. **New BatoX features** come to the app as they reach the web panel, through BatoX's
+   [API](https://github.com/monteirohat/BatoX/blob/main/docs/api.md).
 
 ## Look
 

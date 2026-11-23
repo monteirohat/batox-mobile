@@ -153,6 +153,14 @@ export type ConsoleSystem = {
   played?: number;
   favorites?: number;
   hasLogo?: boolean;
+  // The name themes know it by, when not its own
+  theme?: string;
+  folder?: string;
+  folderExists?: boolean;
+  extensions?: string[];
+  inEmulationStation?: boolean;
+  hidden?: number;
+  mostPlayed?: string;
 };
 
 export type Rom = { id: string; system: string; name: string; path: string; size: number; addedAt?: string };
@@ -297,3 +305,59 @@ export const setVideo = (e: Endpoint, choice: { main: string; second: string }) 
 export const getAudio = (e: Endpoint) => request<Audio>(e, '/audio', { timeoutMs: 15000 });
 export const setAudio = (e: Endpoint, device: string) => request<Audio>(e, '/audio', { method: 'PUT', body: { device }, timeoutMs: 20000 });
 export const testSound = (e: Endpoint) => request<unknown>(e, '/audio/test', { method: 'POST', timeoutMs: 15000 });
+
+// --- Batocera settings ---------------------------------------------------------------------------
+
+export type BatoceraChoice = { value: string; label?: string };
+// How a key is edited, chosen by BatoX from batocera.conf's comments and es_features.cfg
+export type BatoceraControl = {
+  type: 'toggle' | 'select' | 'range' | 'number' | 'text' | 'password' | 'combo' | 'screen';
+  label?: string;
+  choices?: BatoceraChoice[];
+  min?: number;
+  max?: number;
+  step?: number;
+  unit?: string;
+  screen?: 'audio' | 'video';
+};
+// active: set in batocera.conf; otherwise commented out, and value is the example
+export type BatoceraSetting = { key: string; value: string; active: boolean; description?: string; sensitive?: boolean; control?: BatoceraControl };
+export type BatoceraCategory = { name: string; settings: BatoceraSetting[] };
+export type BatoceraSettings = { file: string; categories: BatoceraCategory[] };
+
+export const getBatoceraSettings = (e: Endpoint) => request<BatoceraSettings>(e, '/batocera/settings', { timeoutMs: 20000 });
+export const setBatoceraSetting = (e: Endpoint, key: string, value: string) =>
+  request<unknown>(e, '/batocera/settings', { method: 'PUT', body: { key, value }, timeoutMs: 20000 });
+
+// --- Library -------------------------------------------------------------------------------------
+
+export type LibraryStatus = 'available' | 'installed' | 'conflict' | 'unsupported';
+export type LibraryGame = {
+  system: string;
+  systemName?: string;
+  name: string;
+  file: string;
+  size: number;
+  description?: string;
+  developer?: string;
+  publisher?: string;
+  genre?: string;
+  players?: string;
+  year?: string;
+  status: LibraryStatus;
+  coverUrl?: string;
+};
+export type Library = { source: string; name?: string; games: LibraryGame[]; skipped?: number; pending?: number; error?: string };
+export type LibraryDownload = { status: LibraryStatus; pending?: boolean; warning?: string };
+
+export const getLibrary = (e: Endpoint, refresh = false) => request<Library>(e, `/library${refresh ? '?refresh=true' : ''}`, { timeoutMs: 30000 });
+// An empty address forgets the library
+export const setLibrarySource = (e: Endpoint, url: string) => request<Library>(e, '/library/source', { method: 'PUT', body: { url }, timeoutMs: 30000 });
+export const downloadFromLibrary = (e: Endpoint, file: string, overwrite = false) =>
+  request<LibraryDownload>(e, '/library/download', { method: 'POST', body: { file, overwrite }, timeoutMs: 600000 });
+export const libraryCoverPath = (file: string) => `/library/cover?file=${encodeURIComponent(file)}`;
+
+// --- About ---------------------------------------------------------------------------------------
+
+export type About = { version: string; platform: string; endpoints: { method: string; path: string }[] };
+export const getAbout = (e: Endpoint) => request<About>(e, '/about');

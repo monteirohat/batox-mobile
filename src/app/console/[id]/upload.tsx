@@ -1,4 +1,5 @@
 import * as DocumentPicker from 'expo-document-picker';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
@@ -18,6 +19,8 @@ import { colors, fonts, space, type } from '@/theme/tokens';
 // lists by itself
 export default function UploadGames() {
   const { saved } = useConsole();
+  // Opened from a console's screen with ?system=, that system comes chosen
+  const { system: wanted } = useLocalSearchParams<{ system?: string }>();
   const [systems, setSystems] = useState<RomSystem[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [system, setSystem] = useState<RomSystem | null>(null);
@@ -28,9 +31,13 @@ export default function UploadGames() {
   useEffect(() => {
     if (!saved) return;
     getSystems(saved)
-      .then(setSystems)
+      .then((list) => {
+        setSystems(list);
+        const preset = wanted ? list.find((x) => x.name === wanted) : undefined;
+        if (preset) setSystem(preset);
+      })
       .catch((e: Error) => setError(e.message));
-  }, [saved]);
+  }, [saved, wanted]);
 
   const choose = async () => {
     if (!system) return;
@@ -65,7 +72,7 @@ export default function UploadGames() {
             <Text style={type.title}>Upload games</Text>
             <Text style={type.body}>Files go straight to the system&apos;s folder on the console.</Text>
             <Text style={type.label}>System</Text>
-            {systems ? <SystemPicker systems={systems} value={system} onChange={setSystem} /> : !error ? <ActivityIndicator color={colors.ink} /> : null}
+            {systems ? <SystemPicker key={system?.name ?? ''} systems={systems} value={system} onChange={setSystem} /> : !error ? <ActivityIndicator color={colors.ink} /> : null}
             {system ? <Text style={styles.hint}>Accepts {system.extensions.join(' ')}</Text> : null}
             <Field label="Language (optional)" value={language} onChangeText={setLanguage} placeholder="e.g. en, pt or jp" maxLength={10} />
             <View style={styles.switchRow}>

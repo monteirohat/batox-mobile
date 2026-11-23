@@ -15,15 +15,19 @@ import type { IconName } from './icons';
 export const MENU: { route: string; label: string; icon: IconName }[] = [
   { route: 'index', label: 'Home', icon: 'dashboard' },
   { route: 'games', label: 'Games', icon: 'games' },
+  { route: 'consoles', label: 'Consoles', icon: 'consoles' },
   { route: 'upload', label: 'Upload games', icon: 'upload' },
+  { route: 'library', label: 'Library', icon: 'library' },
   { route: 'music', label: 'Music', icon: 'music' },
   { route: 'message', label: 'Messages', icon: 'messages' },
   { route: 'timer', label: 'Timer', icon: 'timer' },
   { route: 'es', label: 'EmulationStation', icon: 'es' },
   { route: 'video', label: 'Video', icon: 'video' },
   { route: 'audio', label: 'Audio', icon: 'audio' },
+  { route: 'batocera', label: 'Batocera', icon: 'batocera' },
   { route: 'extensions', label: 'Extensions', icon: 'extensions' },
   { route: 'logs', label: 'Logs', icon: 'logs' },
+  { route: 'access', label: 'Access', icon: 'access' },
 ];
 
 // The side menu: the console it works on, its features (the open one is the selected surface in
