@@ -56,7 +56,7 @@ export default function Home() {
       setSnapshot({ status, device, nowPlaying });
       setError(null);
       const name = device.model || entry.name;
-      if (status.version !== entry.version || name !== entry.name) await saveConsole({ ...entry, name, version: status.version });
+      if (status.version !== entry.version || name !== entry.name) await saveConsole({ ...entry, name, version: status.version }).catch(() => undefined);
     } catch (e) {
       setError(e instanceof ApiError ? e : new ApiError(String(e)));
     } finally {

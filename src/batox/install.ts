@@ -4,7 +4,7 @@
 
 import type { SshClient } from '../ssh/client';
 import type { OpenSocket } from '../ssh/socket';
-import { APP_DIR, connect, inspect, type ConsoleInfo, type Target } from './console';
+import { APP_DIR, HostKeyChangedError, connect, inspect, type ConsoleInfo, type Target } from './console';
 import { consoleUrl } from './address';
 import type { Release } from './github';
 
@@ -79,6 +79,17 @@ export function parseChecksums(text: string): Map<string, string> {
   return sums;
 }
 
+// Why the downloaded files can't be trusted, or null when each one is in the release's checksums
+// and matches. A file missing from the list fails too: it can't be checked.
+export function checksumProblem(files: string[], expected: Map<string, string>, actual: Map<string, string>): string | null {
+  for (const file of files) {
+    const want = expected.get(file);
+    if (!want) return `${file} isn't in the release's checksums, so it can't be verified. Choose another version.`;
+    if (actual.get(file) !== want) return `${file} arrived corrupted (its checksum doesn't match). Try again.`;
+  }
+  return null;
+}
+
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // What curl's exit code means for someone holding a phone
@@ -116,7 +127,7 @@ export async function install(options: InstallOptions): Promise<InstallResult> {
     try {
       ssh = await connect(target, options.openSocket, options.hostKey);
     } catch (error) {
-      if (options.hostKey && error instanceof Error && 'kind' in error && error.kind === 'hostkey') {
+      if (error instanceof HostKeyChangedError) {
         throw new Error("The console's SSH host key changed since it was checked. Check the console again.");
       }
       throw error;
@@ -166,14 +177,8 @@ export async function install(options: InstallOptions): Promise<InstallResult> {
       const files = [names.binary, names.service, ...(find(names.config) ? [names.config] : [])];
       const sums = await ssh.exec(`cd ${DOWNLOAD_DIR} && cat ${names.sums} && echo --- && sha256sum ${files.join(' ')}`);
       const [expectedText, actualText = ''] = sums.stdout.split('\n---\n');
-      const expected = parseChecksums(expectedText);
-      const actual = parseChecksums(actualText);
-      for (const file of files) {
-        const want = expected.get(file);
-        if (want && actual.get(file) !== want) {
-          throw new Error(`${file} arrived corrupted (its checksum doesn't match). Try again.`);
-        }
-      }
+      const problem = checksumProblem(files, parseChecksums(expectedText), parseChecksums(actualText));
+      if (problem) throw new Error(problem);
       done('verify');
     } else {
       skip('verify', 'This release has no checksums');

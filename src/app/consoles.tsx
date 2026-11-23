@@ -27,7 +27,12 @@ export default function Consoles() {
         text: 'Forget',
         style: 'destructive',
         onPress: async () => {
-          await forgetConsole(consoleId(c));
+          try {
+            await forgetConsole(consoleId(c));
+          } catch (e) {
+            Alert.alert("Couldn't forget the console", e instanceof Error ? e.message : String(e));
+            return;
+          }
           const rest = await listConsoles();
           if (rest.length === 0) openWelcome();
           else if (consoleId(c) === current) openConsole(rest[0]);

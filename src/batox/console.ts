@@ -1,7 +1,7 @@
 // Looking at a Batocera console over SSH: the same checks as the BatoX Installer
 // (BatoX_Installer src/main/installer.ts), so both tell the same story.
 
-import { SshClient } from '../ssh/client';
+import { SshClient, SshError } from '../ssh/client';
 import type { OpenSocket } from '../ssh/socket';
 
 export const APP_DIR = '/userdata/system/batox';
@@ -45,17 +45,42 @@ function parseKeyValues(text: string): Record<string, string> {
   return out;
 }
 
+// The console answered with another SSH host key than the one this phone saw before: Batocera
+// was reinstalled, or another machine is answering at the address
+export class HostKeyChangedError extends Error {
+  constructor(
+    readonly known: string,
+    readonly seen: string,
+  ) {
+    super("The console's SSH key isn't the one this phone saw before.");
+    this.name = 'HostKeyChangedError';
+  }
+}
+
 // Opens an SSH session to the console. With expectedHostKey, refuses a console whose host key
-// changed since it was checked.
+// isn't that one, before the password is sent.
 export async function connect(target: Target, openSocket: OpenSocket, expectedHostKey?: string): Promise<SshClient> {
-  return SshClient.connect({
-    host: target.host.trim(),
-    port: target.port ?? 22,
-    username: target.username.trim(),
-    password: target.password,
-    openSocket,
-    checkHostKey: expectedHostKey ? (fingerprint) => fingerprint === expectedHostKey : undefined,
-  });
+  let seen = '';
+  try {
+    return await SshClient.connect({
+      host: target.host.trim(),
+      port: target.port ?? 22,
+      username: target.username.trim(),
+      password: target.password,
+      openSocket,
+      checkHostKey: expectedHostKey
+        ? (fingerprint) => {
+            seen = fingerprint;
+            return fingerprint === expectedHostKey;
+          }
+        : undefined,
+    });
+  } catch (error) {
+    if (expectedHostKey && seen && seen !== expectedHostKey && error instanceof SshError && error.kind === 'hostkey') {
+      throw new HostKeyChangedError(expectedHostKey, seen);
+    }
+    throw error;
+  }
 }
 
 // Checks that the console can run BatoX
@@ -83,9 +108,10 @@ export async function inspect(ssh: SshClient, host: string): Promise<ConsoleInfo
   };
 }
 
-// Connects, looks, and disconnects
-export async function inspectConsole(target: Target, openSocket: OpenSocket): Promise<ConsoleInfo> {
-  const ssh = await connect(target, openSocket);
+// Connects, looks, and disconnects. With knownHostKey (the one saved for this address), a
+// different key throws HostKeyChangedError.
+export async function inspectConsole(target: Target, openSocket: OpenSocket, knownHostKey?: string): Promise<ConsoleInfo> {
+  const ssh = await connect(target, openSocket, knownHostKey);
   try {
     return await inspect(ssh, target.host.trim());
   } finally {

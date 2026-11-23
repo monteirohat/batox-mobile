@@ -30,6 +30,9 @@ class NamedFormData extends FormData {
   }
 }
 
+const STALL_MS = 60_000;
+const ANSWER_MS = 120_000;
+
 export function uploadFile<T>(
   endpoint: Endpoint,
   path: string,
@@ -40,12 +43,30 @@ export function uploadFile<T>(
   const where = `${urlHost(endpoint.host)}:${endpoint.port}`;
   return new Promise<T>((resolve, reject) => {
     const xhr = new XMLHttpRequest();
+    // Gives up when nothing moves for a while: no bytes leave the phone, or BatoX doesn't answer
+    // once the whole file is there (it may still be checking or unpacking it)
+    let stalled = '';
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const watch = (ms: number, why: string) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        stalled = why;
+        xhr.abort();
+      }, ms);
+    };
+    const settle = () => clearTimeout(timer);
     xhr.open('POST', `http://${where}/api/v1${path}`);
     if (endpoint.token) xhr.setRequestHeader('Authorization', `Bearer ${endpoint.token}`);
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) onProgress(event.loaded, event.total);
+      // React Native reports the upload's progress but not always its end: the last byte counts as it
+      if (event.lengthComputable && event.loaded >= event.total) waitAnswer();
+      else watch(STALL_MS, `The upload stopped: nothing reached BatoX at ${where} for ${STALL_MS / 1000} seconds.`);
     };
+    const waitAnswer = () => watch(ANSWER_MS, `The file was sent, but BatoX at ${where} didn't answer within ${ANSWER_MS / 60000} minutes.`);
+    xhr.upload.onload = waitAnswer;
     xhr.onload = () => {
+      settle();
       let body: { error?: string } | undefined;
       try {
         body = JSON.parse(xhr.responseText);
@@ -70,9 +91,20 @@ export function uploadFile<T>(
         ),
       );
     };
-    xhr.onerror = () => reject(new ApiError(`Couldn't reach BatoX at ${where}.`));
-    xhr.onabort = () => reject(new ApiError('Cancelled.'));
+    xhr.onerror = () => {
+      settle();
+      reject(new ApiError(`Couldn't reach BatoX at ${where}.`));
+    };
+    xhr.onabort = () => {
+      settle();
+      reject(new ApiError(stalled || 'Cancelled.'));
+    };
+    if (signal?.aborted) {
+      reject(new ApiError('Cancelled.'));
+      return;
+    }
     signal?.addEventListener('abort', () => xhr.abort());
+    watch(STALL_MS, `The upload didn't start: BatoX at ${where} took nothing for ${STALL_MS / 1000} seconds.`);
 
     const form = new NamedFormData();
     // React Native's FormData takes a file as { uri, name, type }

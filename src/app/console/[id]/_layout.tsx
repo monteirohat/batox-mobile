@@ -1,13 +1,18 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import { useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { ConsoleProvider } from '@/batox/console-context';
-import { setCurrentConsoleId } from '@/batox/consoles';
+import { listConsoles, setCurrentConsoleId } from '@/batox/consoles';
+import { openWelcome } from '@/batox/navigation';
 import { useSavedConsole } from '@/batox/use-console';
+import { Backdrop } from '@/components/backdrop';
+import { Button } from '@/components/button';
 import { ConsoleMenu } from '@/components/console-menu';
 import { headerOptions } from '@/components/header';
-import { colors } from '@/theme/tokens';
+import { Plate } from '@/components/plate';
+import { colors, space, type } from '@/theme/tokens';
 
 // A console: its screens behind a side menu, opened from the bar's menu button or by swiping from
 // the left edge. Opening a console makes it the one the app starts on.
@@ -16,8 +21,11 @@ export default function ConsoleLayout() {
   const saved = useSavedConsole(id);
 
   useEffect(() => {
-    void setCurrentConsoleId(id);
-  }, [id]);
+    if (saved) void setCurrentConsoleId(id);
+  }, [id, saved]);
+
+  // An address the phone doesn't know (forgotten, or a stale link): no screen could load anything
+  if (saved === null) return <UnknownConsole id={id} />;
 
   return (
     <ConsoleProvider value={{ id, saved }}>
@@ -48,3 +56,24 @@ export default function ConsoleLayout() {
     </ConsoleProvider>
   );
 }
+
+function UnknownConsole({ id }: { id: string }) {
+  const leave = async () => {
+    if ((await listConsoles()).length) router.replace('/consoles');
+    else openWelcome();
+  };
+  return (
+    <Backdrop>
+      <View style={styles.box}>
+        <Plate label="Not on this phone">
+          <Text style={type.body}>This phone doesn&apos;t know a console at {id}. It may have been forgotten.</Text>
+          <Button primary label="Choose a console" onPress={() => void leave()} />
+        </Plate>
+      </View>
+    </Backdrop>
+  );
+}
+
+const styles = StyleSheet.create({
+  box: { paddingTop: 72, gap: space.s },
+});

@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { useFocusEffect } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Linking, Platform, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 
 import { downloadFromLibrary, getLibrary, libraryCoverPath, mediaSource, setLibrarySource, type Library as LibraryData, type LibraryGame } from '@/batox/api';
@@ -43,6 +43,9 @@ export default function Library() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [working, setWorking] = useState<Map<string, Work>>(new Map());
   const [note, setNote] = useState<string | null>(null);
+  const stop = useRef<AbortController | null>(null);
+  // Leaving the screen stops the downloads, as Cancel does
+  useEffect(() => () => stop.current?.abort(), []);
 
   const load = useCallback(
     async (refresh = false) => {
@@ -134,21 +137,29 @@ export default function Library() {
     setWorking(new Map(files.map((f) => [f, 'waiting' as Work])));
     setSelected((cur) => new Set([...cur].filter((f) => !files.includes(f))));
     setNote(null);
+    const controller = new AbortController();
+    stop.current = controller;
     let ok = 0;
     let pending = 0;
+    let skipped = 0;
     const failed: string[] = [];
     const warnings: string[] = [];
     for (const f of files) {
+      if (controller.signal.aborted) {
+        skipped++;
+        continue;
+      }
       setWorking((cur) => new Map(cur).set(f, 'downloading'));
       const g = data.games.find((x) => x.file === f);
       try {
-        const res = await downloadFromLibrary(saved, f, overwrite);
+        const res = await downloadFromLibrary(saved, f, overwrite, controller.signal);
         setData((d) => (d ? { ...d, games: d.games.map((x) => (x.file === f ? { ...x, status: res.status } : x)) } : d));
         if (res.warning) warnings.push(`${g?.name ?? f}: ${res.warning}`);
         if (res.pending) pending++;
         ok++;
       } catch (e) {
-        failed.push(`${g?.name ?? f}: ${e instanceof Error ? e.message : String(e)}`);
+        if (controller.signal.aborted) skipped++;
+        else failed.push(`${g?.name ?? f}: ${e instanceof Error ? e.message : String(e)}`);
       }
       setWorking((cur) => {
         const next = new Map(cur);
@@ -156,6 +167,8 @@ export default function Library() {
         return next;
       });
     }
+    stop.current = null;
+    setWorking(new Map());
     if (pending) setData((d) => (d ? { ...d, pending: (d.pending ?? 0) + pending } : d));
     if (ok) {
       const them = ok === 1 ? 'it' : 'them';
@@ -165,6 +178,7 @@ export default function Library() {
           : `${plural(ok, 'game', 'games')} downloaded. EmulationStation shows ${them} in a moment.`,
       );
     }
+    if (skipped) setNote((n) => `${n ? `${n} ` : ''}Cancelled: ${plural(skipped, 'game was', 'games were')} not downloaded.`);
     if (failed.length || warnings.length) Alert.alert(failed.length ? "Some games weren't downloaded" : 'Downloaded, with a warning', [...failed, ...warnings].join('\n\n'));
   };
 
@@ -251,6 +265,7 @@ export default function Library() {
               <Button primary label={selected.size ? `Download ${plural(selected.size, 'game', 'games')}` : 'Download'} onPress={() => void download([...selected])} disabled={!selected.size || working.size > 0} />
             </View>
           </View>
+          {working.size ? <Button label="Cancel the downloads" onPress={() => stop.current?.abort()} /> : null}
           {note ? <Text style={styles.ok}>{note}</Text> : null}
         </Plate>
       ) : null}

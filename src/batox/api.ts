@@ -46,11 +46,24 @@ export type NowPlaying = {
   game?: { name: string; system: string; systemName: string; path?: string; romId?: string; hasCover?: boolean; playCount?: number; seconds?: number; sinceKnown?: boolean };
 };
 
-export async function request<T>(endpoint: Endpoint, path: string, options: { method?: string; body?: unknown; timeoutMs?: number } = {}): Promise<T> {
+// A call to BatoX's API. signal cancels it (BatoX stops what the call started, since it follows the
+// request's context); timeoutMs gives up on a BatoX that doesn't answer.
+export async function request<T>(
+  endpoint: Endpoint,
+  path: string,
+  options: { method?: string; body?: unknown; timeoutMs?: number; signal?: AbortSignal } = {},
+): Promise<T> {
   const timeoutMs = options.timeoutMs ?? 8000;
   const where = `${urlHost(endpoint.host)}:${endpoint.port}`;
+  if (options.signal?.aborted) throw new ApiError('Cancelled.');
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, timeoutMs);
+  const cancel = () => controller.abort();
+  options.signal?.addEventListener('abort', cancel);
   let res: Response;
   try {
     res = await fetch(`http://${where}/api/v1${path}`, {
@@ -65,12 +78,15 @@ export async function request<T>(endpoint: Endpoint, path: string, options: { me
     });
   } catch {
     throw new ApiError(
-      controller.signal.aborted
+      timedOut
         ? `BatoX at ${where} didn't answer within ${Math.round(timeoutMs / 1000)} seconds.`
-        : `Couldn't reach BatoX at ${where}. Check the address, and that the phone is on the console's network.`,
+        : controller.signal.aborted
+          ? 'Cancelled.'
+          : `Couldn't reach BatoX at ${where}. Check the address, and that the phone is on the console's network.`,
     );
   } finally {
     clearTimeout(timer);
+    options.signal?.removeEventListener('abort', cancel);
   }
   if (res.status === 401) {
     throw new ApiError("BatoX refused the token. Copy it again: it is in /userdata/system/batox/token on the console.", 401);
@@ -353,8 +369,8 @@ export type LibraryDownload = { status: LibraryStatus; pending?: boolean; warnin
 export const getLibrary = (e: Endpoint, refresh = false) => request<Library>(e, `/library${refresh ? '?refresh=true' : ''}`, { timeoutMs: 30000 });
 // An empty address forgets the library
 export const setLibrarySource = (e: Endpoint, url: string) => request<Library>(e, '/library/source', { method: 'PUT', body: { url }, timeoutMs: 30000 });
-export const downloadFromLibrary = (e: Endpoint, file: string, overwrite = false) =>
-  request<LibraryDownload>(e, '/library/download', { method: 'POST', body: { file, overwrite }, timeoutMs: 600000 });
+export const downloadFromLibrary = (e: Endpoint, file: string, overwrite = false, signal?: AbortSignal) =>
+  request<LibraryDownload>(e, '/library/download', { method: 'POST', body: { file, overwrite }, timeoutMs: 600000, signal });
 export const libraryCoverPath = (file: string) => `/library/cover?file=${encodeURIComponent(file)}`;
 
 // --- About ---------------------------------------------------------------------------------------
