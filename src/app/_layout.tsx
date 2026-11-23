@@ -32,6 +32,7 @@ export default function RootLayout() {
         <Stack.Screen name="install" options={{ title: 'Install BatoX' }} />
         <Stack.Screen name="connect" options={{ title: 'Connect' }} />
         <Stack.Screen name="consoles" options={{ title: 'Consoles' }} />
+        <Stack.Screen name="about" options={{ title: 'About' }} />
         <Stack.Screen name="console/[id]" options={{ headerShown: false }} />
       </Stack>
     </>

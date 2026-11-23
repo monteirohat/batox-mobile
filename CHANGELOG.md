@@ -138,6 +138,10 @@ development, so a development build installs as another app).
 - Choosing a system (Upload games, Music) is the web panel's select: every Batocera system A to Z,
   as "Full name (folder)" with its games, in a list with a search, instead of the twelve systems
   with games. Upload games remembers the last system chosen on each console.
+- About the app, in the side menu and the list of consoles: the version, Report a problem (a new
+  GitHub issue with the app's and the phone's versions filled in, or an email to Algore
+  Tecnologia), the source code of the app and of BatoX, the publisher, the privacy policy and the
+  license.
 - Scrolling screens span the whole width (`src/theme/page.ts`): the scroll bar sits at the screen's
   edge instead of inside the side margin, which made the screen look like a smaller box.
 - Batocera settings (`/batocera/settings`): the categories, general and per game system, with their

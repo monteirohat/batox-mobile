@@ -80,6 +80,16 @@ export function ConsoleMenu({ state, navigation, console }: DrawerContentCompone
           <Icon name="switch" color={colors.ink2} />
           <Text style={styles.label}>Switch console</Text>
         </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => {
+            navigation.closeDrawer();
+            router.push('/about');
+          }}
+          style={({ pressed }) => [styles.item, pressed && styles.pressed]}>
+          <Icon name="about" color={colors.ink2} />
+          <Text style={styles.label}>About the app</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );

@@ -69,6 +69,10 @@ console and manage it from your phone. Built with Expo (React Native).
     search, system, only those not on the console, one or many at a time, with covers.
 18. **Access**: the address and token the phone uses (show, copy, test, change), and the routes
     of the console's BatoX.
+19. **About the app** (in the side menu and the list of consoles): its version, **Report a
+    problem** (a new GitHub issue with the app's and the phone's versions filled in, or an email
+    for those without a GitHub account), the source code, the publisher, the privacy policy and
+    the license.
 
 ## What comes next
 

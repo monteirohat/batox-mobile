@@ -69,6 +69,7 @@ export default function Consoles() {
         <View style={styles.actions}>
           <Button primary label="Add a console with BatoX" onPress={() => router.push('/connect')} />
           <Button label="Install BatoX on a console" onPress={() => router.push('/install')} />
+          <Button label="About the app" onPress={() => router.push('/about')} />
         </View>
       </ScrollView>
     </Backdrop>

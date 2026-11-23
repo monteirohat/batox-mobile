@@ -19,6 +19,8 @@ export const ICONS = {
   access: "<circle cx=\"8\" cy=\"15\" r=\"4\"/><path d=\"M11 12l9-9M17 6l3 3M14 9l2 2\"/>",
   open: "<path d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"/><path d=\"M15 3h6v6M10 14 21 3\"/>",
   switch: "<path d=\"m17 1 4 4-4 4\"/><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"/><path d=\"m7 23-4-4 4-4\"/><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"/>",
+  // The web panel's details icon (views/games.js)
+  about: "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 11v6M12 7.5v.01\"/>",
 } as const;
 
 export type IconName = keyof typeof ICONS;
