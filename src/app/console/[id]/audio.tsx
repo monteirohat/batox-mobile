@@ -8,6 +8,7 @@ import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Chips } from '@/components/chips';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // The same words as the web panel's Audio screen
@@ -90,7 +91,7 @@ export default function Audio() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.ink} />}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.ink} />}>
         <Text style={[type.body, styles.intro]}>Choose where the sound comes out: a screen over HDMI, the headphone jack, or a USB or Bluetooth device. The change is immediate.</Text>
 
         {error ? (

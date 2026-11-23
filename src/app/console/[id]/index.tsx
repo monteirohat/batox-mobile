@@ -24,6 +24,7 @@ import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Meter, Meters, type Level } from '@/components/meter';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 type Snapshot = { status: Status; device: Device; nowPlaying: NowPlaying | null };
@@ -140,7 +141,7 @@ export default function Home() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.ink} />}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.ink} />}>
         {loading ? <ActivityIndicator color={colors.ink} style={styles.loading} /> : null}
 
         {!loading && !saved ? (

@@ -8,6 +8,7 @@ import { useBatocera } from '@/batox/use-batocera';
 import { Backdrop } from '@/components/backdrop';
 import { BatoceraSettingRow } from '@/components/batocera-setting';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, space, type } from '@/theme/tokens';
 
 // The keys of one category of batocera.conf, each with its control
@@ -24,8 +25,8 @@ export default function BatoceraCategory() {
     <Backdrop>
       <Stack.Screen options={{ title: categoryLabel(category, systems) }} />
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView
-          contentContainerStyle={styles.scroll}
+        <ScrollView style={page.scroller}
+          contentContainerStyle={[styles.scroll, page.content]}
           keyboardShouldPersistTaps="handled"
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.ink} />}>
           {error ? (

@@ -10,6 +10,7 @@ import { BatoceraSettingRow } from '@/components/batocera-setting';
 import { Button } from '@/components/button';
 import { Field } from '@/components/field';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // Every key in batocera.conf, by category: the general ones, then one per game system. A search
@@ -68,8 +69,8 @@ export default function BatoceraSettings() {
   return (
     <Backdrop>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView
-          contentContainerStyle={styles.scroll}
+        <ScrollView style={page.scroller}
+          contentContainerStyle={[styles.scroll, page.content]}
           keyboardShouldPersistTaps="handled"
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.ink} />}>
           <Text style={[type.body, styles.intro]}>

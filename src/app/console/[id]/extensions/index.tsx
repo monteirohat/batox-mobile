@@ -9,6 +9,7 @@ import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Chips } from '@/components/chips';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 const ON_OFF = [
@@ -93,7 +94,7 @@ export default function ExtensionsScreen() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.ink} />}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.ink} />}>
         {error ? (
           <Plate label="Couldn't read the extensions" tone="error">
             <Text style={[type.body, styles.strong]}>{error}</Text>

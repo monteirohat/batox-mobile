@@ -12,6 +12,7 @@ import { ChoiceSheet } from '@/components/choice-sheet';
 import { Chips } from '@/components/chips';
 import { Field } from '@/components/field';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 const GUIDE = 'https://github.com/monteirohat/batox/blob/main/docs/library.md';
@@ -288,9 +289,10 @@ export default function Library() {
     <Backdrop>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <FlatList
+          style={page.scroller}
           data={data?.source ? list : []}
           keyExtractor={(g) => g.file}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={[styles.list, page.content]}
           keyboardShouldPersistTaps="handled"
           ListHeaderComponent={header}
           ListEmptyComponent={

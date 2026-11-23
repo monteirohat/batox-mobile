@@ -1,23 +1,25 @@
 import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { ApiError, getRomDetails, launchRom, mediaSource, type RomDetails } from '@/batox/api';
+import { ApiError, deleteRom, getRomDetails, launchRom, mediaSource, type RomDetails } from '@/batox/api';
 import { bytes, duration, esDate, esYear, gameName } from '@/batox/format';
 import { useConsole } from '@/batox/console-context';
+import { markRomsStale } from '@/batox/rom-list';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Figure, Figures } from '@/components/figure';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // The cover first: box art, then the other pictures EmulationStation scraped
 const COVER_ORDER = ['boxart', 'thumbnail', 'image', 'mix', 'titleshot', 'marquee', 'wheel'];
 
-// One game: its picture, what EmulationStation scraped about it, and Play on the TV
+// One game: its picture, what EmulationStation scraped about it, Play on the TV, and Delete
 export default function Game() {
-  const { saved } = useConsole();
+  const { id, saved } = useConsole();
   const { rom } = useLocalSearchParams<{ rom: string }>();
   const [details, setDetails] = useState<RomDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +32,29 @@ export default function Game() {
       .then(setDetails)
       .catch((e: Error) => setError(e.message));
   }, [saved, rom]);
+
+  const [deleting, setDeleting] = useState(false);
+  const remove = () => {
+    if (!saved || !details) return;
+    Alert.alert('Delete this game?', `${details.rom.name} is deleted from the console. Saves and scraped media are not affected.`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete game',
+        style: 'destructive',
+        onPress: async () => {
+          setDeleting(true);
+          try {
+            await deleteRom(saved, rom);
+            markRomsStale(id);
+            router.back();
+          } catch (e) {
+            setDeleting(false);
+            Alert.alert("Couldn't delete the game", e instanceof Error ? e.message : String(e));
+          }
+        },
+      },
+    ]);
+  };
 
   const play = async (replace = false) => {
     if (!saved || !details) return;
@@ -64,7 +89,7 @@ export default function Game() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]}>
         {error ? (
           <Plate label="Couldn't read the game" tone="error">
             <Text style={[type.body, styles.strong]}>{error}</Text>
@@ -111,6 +136,7 @@ export default function Game() {
             <Plate label="File">
               <Text style={styles.file}>{details.rom.name}</Text>
               <Text style={styles.note}>{bytes(details.rom.size)}</Text>
+              <Button danger label={deleting ? 'Deleting…' : 'Delete game'} onPress={remove} disabled={deleting} />
             </Plate>
           </>
         )}

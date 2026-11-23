@@ -12,6 +12,7 @@ import { Chips } from '@/components/chips';
 import { Field } from '@/components/field';
 import { LogBox } from '@/components/log-box';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 type Tab = 'controls' | 'settings' | 'theme' | 'log';
@@ -43,7 +44,7 @@ export default function EmulationStation() {
   return (
     <Backdrop>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} keyboardShouldPersistTaps="handled">
           <Chips options={TABS} value={tab} onChange={setTab} />
           {tab === 'controls' ? <Controls /> : tab === 'settings' ? <Settings /> : tab === 'theme' ? <Theme /> : <Log />}
         </ScrollView>

@@ -7,6 +7,7 @@ import { consoleId, forgetConsole, getCurrentConsoleId, listConsoles, type Saved
 import { openConsole, openWelcome } from '@/batox/navigation';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // The consoles this phone knows: open another one, add one, or forget one
@@ -44,7 +45,7 @@ export default function Consoles() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]}>
         <Text style={type.label}>Your consoles</Text>
         {consoles.map((c) => {
           const active = consoleId(c) === current;

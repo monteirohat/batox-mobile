@@ -10,6 +10,7 @@ import { useConsole } from '@/batox/console-context';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // How this phone reaches BatoX: the console's address and its access token, kept in the phone's
@@ -61,7 +62,7 @@ export default function Access() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]}>
         <View style={styles.hero}>
           <Image source={require('@/assets/images/wordmark.png')} style={styles.wordmark} contentFit="contain" accessibilityLabel="BatoX" />
           <Text style={type.title}>API access</Text>

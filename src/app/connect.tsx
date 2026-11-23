@@ -10,6 +10,7 @@ import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Field } from '@/components/field';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, space, type } from '@/theme/tokens';
 
 // Connects to a console that already runs BatoX: its address and access token. Opened with
@@ -44,7 +45,7 @@ export default function Connect() {
   return (
     <Backdrop>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} keyboardShouldPersistTaps="handled">
           <Plate>
             <Text style={type.title}>Connect to BatoX</Text>
             <Text style={type.body}>For a console that already runs BatoX. The token is kept on this phone, in its secure storage.</Text>

@@ -8,6 +8,7 @@ import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Chips, type Option } from '@/components/chips';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 const ROLES: Record<string, string> = { main: 'Main screen', second: 'Second screen', off: 'Off' };
@@ -105,7 +106,7 @@ export default function Video() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.ink} />}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.ink} />}>
         <Text style={[type.body, styles.intro]}>Choose the screen that shows EmulationStation and the games, and whether the other screen stays on. Changes apply when the console restarts.</Text>
 
         {error ? (

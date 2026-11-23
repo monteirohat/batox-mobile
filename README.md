@@ -30,14 +30,14 @@ console and manage it from your phone. Built with Expo (React Native).
    opens on the console it used last; a side menu holds the console's features, Open BatoX in the
    browser, and Switch console (open another, add one, install BatoX on one, or forget one).
 
-4. **Games**: the systems with games, then a system's games with a search (it ignores case and
-   accents), then a game: its cover and what EmulationStation scraped (description, publisher,
-   genre, players, rating, times played), and **Play on the TV**. When another game is running,
-   the app asks before closing it.
-5. **Upload games** from the phone: choose the system (a search over Batocera's systems), pick
-   files with the system's file picker, and they go one at a time to its folder, each with its
-   progress. Files the system doesn't take, and games already on the console, are skipped with
-   the reason.
+4. **Games**, as on the web panel: every game on the console in one list, with a search (it
+   ignores case and accents), a system, Sync library and Upload games; then a game: its cover and
+   what EmulationStation scraped (description, publisher, genre, players, rating, times played),
+   **Play on the TV** and Delete. When another game is running, the app asks before closing it.
+5. **Upload games** from the phone: choose the system (every Batocera system, A to Z, with a
+   search, as on the web panel), pick files with the system's file picker, and they go one at a
+   time to its folder, each with its progress. Files the system doesn't take, and games already on
+   the console, are skipped with the reason.
 6. **Music**: the menus' background music, by folder (main, or a system's); upload tracks the same
    way, or delete one.
 7. **Send a message** to the TV, even during a game: quick messages, and where, how long and
@@ -60,7 +60,7 @@ console and manage it from your phone. Built with Expo (React Native).
 15. **Consoles**: every system Batocera can emulate, as cards with the system's logo in white
     (the theme's, with the dark or gray plate some logos come on cut off, as on batox-theme), a
     search, its type, the order, and only the ones with games; then a system's details, its ROM
-    folder and accepted files, Show games and Upload games. The Games screen uses the same cards.
+    folder and accepted files, Show games (the Games list, on that system) and Upload games.
 16. **Batocera settings**: every key in batocera.conf by category (general, then per game
     system), each with its control: On and Off, a list (a long one opens a list with a search), a
     range, a number, text or a password; a search over all keys; and a new key, such as a

@@ -179,7 +179,20 @@ export type ConsoleSystem = {
   mostPlayed?: string;
 };
 
-export type Rom = { id: string; system: string; name: string; path: string; size: number; addedAt?: string };
+export type Rom = { id: string; system: string; name: string; path: string; size: number; language?: string; addedAt?: string };
+
+// What Sync library found: the console's ROM folders against BatoX's catalog
+export type SyncResult = {
+  added: number;
+  updated: number;
+  moved: number;
+  removed: number;
+  unchanged: number;
+  duplicates: string[];
+  skipped: string[];
+  errors: string[];
+  durationMs: number;
+};
 
 export type RomMedia = { kind: string; type: 'image' | 'video' | 'document' | 'file'; url: string };
 
@@ -194,7 +207,10 @@ export type RomDetails = {
 export type LaunchResult = { status: 'playing' | 'requested'; name: string; replaced?: string };
 
 export const getConsoles = (e: Endpoint) => request<{ emulationStation: boolean; consoles: ConsoleSystem[] }>(e, '/consoles', { timeoutMs: 15000 });
-export const getSystemRoms = (e: Endpoint, system: string) => request<Rom[]>(e, `/roms/system/${encodeURIComponent(system)}`, { timeoutMs: 30000 });
+// Every game in the console's ROM folders (some consoles have tens of thousands)
+export const getRoms = (e: Endpoint) => request<Rom[]>(e, '/roms', { timeoutMs: 60000 });
+export const syncRoms = (e: Endpoint) => request<SyncResult>(e, '/roms/sync', { method: 'POST', timeoutMs: 600000 });
+export const deleteRom = (e: Endpoint, id: string) => request<unknown>(e, `/roms/${encodeURIComponent(id)}`, { method: 'DELETE', timeoutMs: 30000 });
 export const getRomDetails = (e: Endpoint, id: string) => request<RomDetails>(e, `/roms/${encodeURIComponent(id)}/details`);
 // Opens the game on the TV. 409 when another game runs; replace closes it first (its unsaved
 // progress is lost).

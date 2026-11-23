@@ -1,11 +1,12 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { getSystems, type RomSystem } from '@/batox/api';
 import { hasExtension } from '@/batox/upload';
 import { useConsole } from '@/batox/console-context';
+import { markRomsStale } from '@/batox/rom-list';
 import { useUploadQueue } from '@/batox/use-upload-queue';
 import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
@@ -13,12 +14,16 @@ import { Field } from '@/components/field';
 import { Plate } from '@/components/plate';
 import { SystemPicker } from '@/components/system-picker';
 import { UploadList } from '@/components/upload-list';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
+
+// The last system chosen on each console, as the web panel remembers it, while the app runs
+const lastSystem = new Map<string, string>();
 
 // Sends games from the phone to a system's folder on the console; EmulationStation reloads its game
 // lists by itself
 export default function UploadGames() {
-  const { saved } = useConsole();
+  const { id, saved } = useConsole();
   // Opened from a console's screen with ?system=, that system comes chosen
   const { system: wanted } = useLocalSearchParams<{ system?: string }>();
   const [systems, setSystems] = useState<RomSystem[] | null>(null);
@@ -26,18 +31,20 @@ export default function UploadGames() {
   const [system, setSystem] = useState<RomSystem | null>(null);
   const [language, setLanguage] = useState('');
   const [overwrite, setOverwrite] = useState(false);
-  const { items, add, cancel, clear, busy } = useUploadQueue(saved);
+  // A game that arrives makes the Games list read the console again
+  const { items, add, cancel, clear, busy } = useUploadQueue(saved, useCallback(() => markRomsStale(id), [id]));
 
   useEffect(() => {
     if (!saved) return;
     getSystems(saved)
       .then((list) => {
         setSystems(list);
-        const preset = wanted ? list.find((x) => x.name === wanted) : undefined;
+        const name = wanted ?? lastSystem.get(id);
+        const preset = name ? list.find((x) => x.name === name) : undefined;
         if (preset) setSystem(preset);
       })
       .catch((e: Error) => setError(e.message));
-  }, [saved, wanted]);
+  }, [id, saved, wanted]);
 
   const choose = async () => {
     if (!system) return;
@@ -61,7 +68,7 @@ export default function UploadGames() {
   return (
     <Backdrop>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} keyboardShouldPersistTaps="handled">
           {error ? (
             <Plate label="Couldn't read the systems" tone="error">
               <Text style={[type.body, styles.strong]}>{error}</Text>
@@ -72,7 +79,14 @@ export default function UploadGames() {
             <Text style={type.title}>Upload games</Text>
             <Text style={type.body}>Files go straight to the system&apos;s folder on the console.</Text>
             <Text style={type.label}>System</Text>
-            {systems ? <SystemPicker key={system?.name ?? ''} systems={systems} value={system} onChange={setSystem} /> : !error ? <ActivityIndicator color={colors.ink} /> : null}
+            {systems ? <SystemPicker
+                systems={systems}
+                value={system}
+                onChange={(s) => {
+                  setSystem(s);
+                  lastSystem.set(id, s.name);
+                }}
+              /> : !error ? <ActivityIndicator color={colors.ink} /> : null}
             {system ? <Text style={styles.hint}>Accepts {system.extensions.join(' ')}</Text> : null}
             <Field label="Language (optional)" value={language} onChangeText={setLanguage} placeholder="e.g. en, pt or jp" maxLength={10} />
             <View style={styles.switchRow}>

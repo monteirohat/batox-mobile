@@ -11,6 +11,7 @@ import { Chips } from '@/components/chips';
 import { Field } from '@/components/field';
 import { LogBox } from '@/components/log-box';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // One installed extension: its settings, each with the control its manifest asks for, and its log
@@ -74,7 +75,7 @@ export default function ExtensionDetail() {
     <Backdrop>
       <Stack.Screen options={{ title: x?.name ?? 'Extension' }} />
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} keyboardShouldPersistTaps="handled">
           {!x && !error ? <ActivityIndicator color={colors.ink} style={styles.loading} /> : null}
 
           {x && status ? (

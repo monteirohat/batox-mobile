@@ -10,6 +10,7 @@ import { Button } from '@/components/button';
 import { Chips } from '@/components/chips';
 import { Field } from '@/components/field';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 // The same choices as the web panel's Timer screen
@@ -118,7 +119,7 @@ export default function TimerScreen() {
   return (
     <Backdrop>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} keyboardShouldPersistTaps="handled">
           {!status && !loadError ? <ActivityIndicator color={colors.ink} style={styles.loading} /> : null}
 
           {loadError ? (

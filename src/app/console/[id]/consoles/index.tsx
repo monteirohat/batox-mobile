@@ -10,6 +10,7 @@ import { Chips } from '@/components/chips';
 import { ConsoleCard, TYPE_LABEL } from '@/components/console-card';
 import { Field } from '@/components/field';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 const TYPES = [
@@ -113,11 +114,12 @@ export default function Consoles() {
         <ActivityIndicator color={colors.ink} style={styles.loading} />
       ) : (
         <FlatList
+          style={page.scroller}
           data={list}
           keyExtractor={(c) => c.name}
           numColumns={2}
           columnWrapperStyle={styles.columns}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={[styles.list, page.content]}
           keyboardShouldPersistTaps="handled"
           ListHeaderComponent={header}
           ListEmptyComponent={

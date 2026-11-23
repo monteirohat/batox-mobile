@@ -7,6 +7,7 @@ import { useConsole } from '@/batox/console-context';
 import { Backdrop } from '@/components/backdrop';
 import { Chips } from '@/components/chips';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 type Kind = 'info' | 'error' | 'es';
@@ -89,9 +90,10 @@ export default function Logs() {
   return (
     <Backdrop>
       <FlatList
+        style={page.scroller}
         data={rows ?? []}
         keyExtractor={(r) => r.key}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[styles.list, page.content]}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.ink} />}
         initialNumToRender={30}
         ListHeaderComponent={

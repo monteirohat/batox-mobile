@@ -13,6 +13,7 @@ import { Chips } from '@/components/chips';
 import { Plate } from '@/components/plate';
 import { SystemPicker } from '@/components/system-picker';
 import { UploadList } from '@/components/upload-list';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 const MAIN = '';
@@ -105,7 +106,7 @@ export default function Music() {
 
   return (
     <Backdrop>
-      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} keyboardShouldPersistTaps="handled">
         {error ? (
           <Plate label="Couldn't read the music" tone="error">
             <Text style={[type.body, styles.strong]}>{error}</Text>

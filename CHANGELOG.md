@@ -130,7 +130,16 @@ development, so a development build installs as another app).
 - Logos are whitened with SVG filters; those that come on a dark or gray plate lose it first, with
   batox-theme's lists (newer than the web panel's: Odyssey2 and PrBoom were white blocks there).
   Logos load one at a time and are kept while the app runs.
-- The Games screen shows its systems as the same cards, two per row.
+- Games is the web panel's Games screen: every game in one list, with a search, a system, Sync
+  library (with what it added, moved, removed, and the duplicates) and Upload games, which stay at
+  the top while the games scroll; Show games on
+  a system's screen opens it on that system. A game's page has Delete game. The list reads the
+  console again after an upload or a deletion.
+- Choosing a system (Upload games, Music) is the web panel's select: every Batocera system A to Z,
+  as "Full name (folder)" with its games, in a list with a search, instead of the twelve systems
+  with games. Upload games remembers the last system chosen on each console.
+- Scrolling screens span the whole width (`src/theme/page.ts`): the scroll bar sits at the screen's
+  edge instead of inside the side margin, which made the screen look like a smaller box.
 - Batocera settings (`/batocera/settings`): the categories, general and per game system, with their
   keys; each key with its control (On and Off, a list, a range, a number, text, a password with
   Show, a link to the Audio or Video screen); lists of more than six choices open a full screen

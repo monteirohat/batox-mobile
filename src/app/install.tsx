@@ -14,6 +14,7 @@ import { Field } from '@/components/field';
 import { Plate } from '@/components/plate';
 import { Steps, applyProgress, type StepView } from '@/components/steps';
 import { openNativeSocket } from '@/ssh/native-socket';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 type Phase = 'setup' | 'installing' | 'done' | 'failed';
@@ -137,7 +138,7 @@ export default function Install() {
   if (phase === 'installing' || phase === 'failed') {
     return (
       <Backdrop>
-        <ScrollView contentContainerStyle={styles.scroll}>
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]}>
           <Plate label={phase === 'failed' ? 'Installation stopped' : `Installing ${release?.tag ?? ''}`}>
             <Steps steps={steps} />
           </Plate>
@@ -165,7 +166,7 @@ export default function Install() {
     const updated = result.updatedFrom && result.updatedFrom !== result.version;
     return (
       <Backdrop>
-        <ScrollView contentContainerStyle={styles.scroll}>
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]}>
           <Plate>
             <Text style={styles.check}>✓</Text>
             <Text style={type.title}>{updated ? `BatoX was updated to ${result.version}` : `BatoX ${result.version} is installed`}</Text>
@@ -194,7 +195,7 @@ export default function Install() {
   return (
     <Backdrop>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]} keyboardShouldPersistTaps="handled">
           <Plate>
             <Text style={type.title}>Your console</Text>
             <Text style={type.body}>Find its address on the console in Main menu &gt; Network settings.</Text>

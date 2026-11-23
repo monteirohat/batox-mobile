@@ -10,6 +10,7 @@ import { Button } from '@/components/button';
 import { TYPE_LABEL } from '@/components/console-card';
 import { ConsoleLogo } from '@/components/console-logo';
 import { Plate } from '@/components/plate';
+import { page } from '@/theme/page';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
 const plural = (n: number, one: string, many: string) => `${n.toLocaleString()} ${n === 1 ? one : many}`;
@@ -56,7 +57,7 @@ export default function ConsoleDetail() {
   return (
     <Backdrop>
       <Stack.Screen options={{ title: system?.fullName ?? 'Console' }} />
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView style={page.scroller} contentContainerStyle={[styles.scroll, page.content]}>
         {error ? (
           <Plate label="Couldn't read the console" tone="error">
             <Text style={[type.body, styles.strong]}>{error}</Text>
@@ -92,7 +93,7 @@ export default function ConsoleDetail() {
             ) : null}
             <View style={styles.actions}>
               {system.games ? (
-                <Button primary label="Show games" onPress={() => router.push({ pathname: '/console/[id]/games/[system]', params: { id, system: system.name, name: system.fullName } })} />
+                <Button primary label="Show games" onPress={() => router.navigate({ pathname: '/console/[id]/games', params: { id, system: system.name } })} />
               ) : null}
               <Button label="Upload games" onPress={() => router.push({ pathname: '/console/[id]/upload', params: { id, system: system.name } })} />
             </View>
