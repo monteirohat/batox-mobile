@@ -6,6 +6,13 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- Google Play no longer hides the app from devices that only run sideways (some Chromebooks,
+  desktops and XR headsets): a config plugin (`plugins/with-optional-portrait.js`) marks the
+  upright screen as optional, which locking the app upright made Android require. The app still
+  opens upright.
+
 ## [1.0.0] - 2026-11-23
 
 The first version for the stores, published by Algore Tecnologia. The app's ID is now
