@@ -1,8 +1,6 @@
-import Feather from '@expo/vector-icons/Feather';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import type { DrawerContentComponentProps } from 'expo-router/drawer';
-import type { ComponentProps } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -10,18 +8,22 @@ import { consoleUrl, displayAddress } from '@/batox/address';
 import type { SavedConsole } from '@/batox/consoles';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
-type Icon = ComponentProps<typeof Feather>['name'];
+import { Icon } from './icon';
+import type { IconName } from './icons';
 
 // The console's features, in the order of the web panel's menu
-export const MENU: { route: string; label: string; icon: Icon }[] = [
-  { route: 'index', label: 'Home', icon: 'monitor' },
-  { route: 'games', label: 'Games', icon: 'grid' },
+export const MENU: { route: string; label: string; icon: IconName }[] = [
+  { route: 'index', label: 'Home', icon: 'dashboard' },
+  { route: 'games', label: 'Games', icon: 'games' },
   { route: 'upload', label: 'Upload games', icon: 'upload' },
   { route: 'music', label: 'Music', icon: 'music' },
-  { route: 'message', label: 'Messages', icon: 'message-square' },
-  { route: 'timer', label: 'Timer', icon: 'clock' },
-  { route: 'extensions', label: 'Extensions', icon: 'package' },
-  { route: 'logs', label: 'Logs', icon: 'list' },
+  { route: 'message', label: 'Messages', icon: 'messages' },
+  { route: 'timer', label: 'Timer', icon: 'timer' },
+  { route: 'es', label: 'EmulationStation', icon: 'es' },
+  { route: 'video', label: 'Video', icon: 'video' },
+  { route: 'audio', label: 'Audio', icon: 'audio' },
+  { route: 'extensions', label: 'Extensions', icon: 'extensions' },
+  { route: 'logs', label: 'Logs', icon: 'logs' },
 ];
 
 // The side menu: the console it works on, its features (the open one is the selected surface in
@@ -51,7 +53,7 @@ export function ConsoleMenu({ state, navigation, console }: DrawerContentCompone
               accessibilityState={{ selected: active }}
               onPress={() => navigation.navigate(item.route)}
               style={({ pressed }) => [styles.item, active && styles.active, pressed && !active && styles.pressed]}>
-              <Feather name={item.icon} size={20} color={active ? colors.ink : colors.ink2} />
+              <Icon name={item.icon} color={active ? colors.ink : colors.ink2} />
               <Text style={[styles.label, active && styles.activeLabel]}>{item.label}</Text>
             </Pressable>
           );
@@ -60,7 +62,7 @@ export function ConsoleMenu({ state, navigation, console }: DrawerContentCompone
       <View style={styles.foot}>
         {console ? (
           <Pressable accessibilityRole="button" onPress={() => Linking.openURL(consoleUrl(console))} style={({ pressed }) => [styles.item, pressed && styles.pressed]}>
-            <Feather name="external-link" size={20} color={colors.ink2} />
+            <Icon name="open" color={colors.ink2} />
             <Text style={styles.label}>Open BatoX in the browser</Text>
           </Pressable>
         ) : null}
@@ -71,7 +73,7 @@ export function ConsoleMenu({ state, navigation, console }: DrawerContentCompone
             router.push('/consoles');
           }}
           style={({ pressed }) => [styles.item, pressed && styles.pressed]}>
-          <Feather name="repeat" size={20} color={colors.ink2} />
+          <Icon name="switch" color={colors.ink2} />
           <Text style={styles.label}>Switch console</Text>
         </Pressable>
       </View>

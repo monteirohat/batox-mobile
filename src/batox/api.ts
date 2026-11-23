@@ -250,3 +250,50 @@ export const getExtensionLog = (e: Endpoint, id: string, tail = 300) => request<
 
 export const getLogs = (e: Endpoint, kind: 'info' | 'error', tail: number) => request<LogLines>(e, `/logs?type=${kind}&tail=${tail}`);
 export const getEsLog = (e: Endpoint, tail: number) => request<LogLines>(e, `/emulationstation/logs?tail=${tail}`);
+
+// --- EmulationStation's controls, settings and theme -----------------------------------------------
+
+export type EsAction = 'reload-gamelists' | 'restart' | 'stop' | 'start';
+export type EsSetting = { type: 'bool' | 'int' | 'float' | 'string'; name: string; value: string };
+
+export const esAction = (e: Endpoint, action: EsAction) => request<unknown>(e, `/emulationstation/${action}`, { method: 'POST', timeoutMs: 60000 });
+export const getEsSettings = (e: Endpoint) => request<EsSetting[]>(e, '/emulationstation/settings');
+// EmulationStation rewrites its file when it exits, so BatoX stops it, writes, and starts it again,
+// unless restart is false
+export const setEsSetting = (e: Endpoint, name: string, value: string, type?: EsSetting['type'], restart = true) =>
+  request<{ status: string; setting: EsSetting; restarted: boolean }>(e, `/emulationstation/settings/${encodeURIComponent(name)}${restart ? '' : '?restart=false'}`, {
+    method: 'PUT',
+    body: type ? { value, type } : { value },
+    timeoutMs: 60000,
+  });
+export const clearEsLog = (e: Endpoint) => request<unknown>(e, '/emulationstation/logs/clear', { method: 'POST' });
+
+// --- Video and audio -----------------------------------------------------------------------------
+
+export type VideoOutput = { name: string; monitor?: string; manufacturer?: string; preferredMode?: string; active?: boolean; role?: 'main' | 'second' | 'off' };
+export type Video = {
+  outputs: VideoOutput[];
+  settings: { main: string; second: string };
+  next: { main: string; second?: string };
+  restartNeeded: boolean;
+  warning?: string;
+};
+
+export type AudioOutput = {
+  name: string;
+  label: string;
+  kind: string;
+  description?: string;
+  monitor?: string;
+  screen?: string;
+  screenRole?: 'main' | 'second' | 'off';
+  connected?: boolean;
+  current?: boolean;
+};
+export type Audio = { outputs: AudioOutput[]; setting: string; current: string; volume?: number; warning?: string };
+
+export const getVideo = (e: Endpoint) => request<Video>(e, '/video', { timeoutMs: 15000 });
+export const setVideo = (e: Endpoint, choice: { main: string; second: string }) => request<Video>(e, '/video', { method: 'PUT', body: choice, timeoutMs: 15000 });
+export const getAudio = (e: Endpoint) => request<Audio>(e, '/audio', { timeoutMs: 15000 });
+export const setAudio = (e: Endpoint, device: string) => request<Audio>(e, '/audio', { method: 'PUT', body: { device }, timeoutMs: 20000 });
+export const testSound = (e: Endpoint) => request<unknown>(e, '/audio/test', { method: 'POST', timeoutMs: 15000 });

@@ -80,3 +80,14 @@ All notable changes to this project are documented here. The format follows
   1000 lines, refreshed by pulling down.
 - Uploaded files keep their real names, spaces and accents included: the app sends the name as
   `filename*=UTF-8''...` (RFC 5987), since React Native's FormData sends it percent-encoded.
+- EmulationStation (`/emulationstation`): reload the game lists, restart, stop and start it; its
+  settings (es_settings.cfg) with a search, true and false for the bool ones, a field for the
+  others, a new setting by name and type, and a choice to restart EmulationStation when saving;
+  install a theme from a .zip (activate it, only restart, or nothing); its log, 100, 200 or 1000
+  lines, and Clear log.
+- Video (`/video`): the screens now (main, second or off), the main screen (Automatic or one of
+  them) and the second screen (On or Off), saved for the next start, with Restart now.
+- Audio (`/audio`): the sound outputs with their kind, screen and the one playing, Automatic, Play
+  a test sound, and Use the main screen's output when the sound comes out of another.
+- The side menu draws the web panel's icons (the puzzle piece for Extensions), with
+  react-native-svg: a new native module, so a new development build is needed.

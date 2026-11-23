@@ -35,6 +35,9 @@ export default function ConsoleLayout() {
         <Drawer.Screen name="music" options={{ title: 'Music' }} />
         <Drawer.Screen name="message" options={{ title: 'Messages' }} />
         <Drawer.Screen name="timer" options={{ title: 'Timer' }} />
+        <Drawer.Screen name="es" options={{ title: 'EmulationStation' }} />
+        <Drawer.Screen name="video" options={{ title: 'Video' }} />
+        <Drawer.Screen name="audio" options={{ title: 'Audio' }} />
         <Drawer.Screen name="extensions" options={{ title: 'Extensions', headerShown: false }} />
         <Drawer.Screen name="logs" options={{ title: 'Logs' }} />
       </Drawer>

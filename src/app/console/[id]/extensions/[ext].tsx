@@ -9,6 +9,7 @@ import { Backdrop } from '@/components/backdrop';
 import { Button } from '@/components/button';
 import { Chips } from '@/components/chips';
 import { Field } from '@/components/field';
+import { LogBox } from '@/components/log-box';
 import { Plate } from '@/components/plate';
 import { colors, fonts, space, type } from '@/theme/tokens';
 
@@ -106,13 +107,7 @@ export default function ExtensionDetail() {
             <Plate label="Log  ·  last 300 lines">
               {logError ? <Text style={[type.body, styles.strong]}>{logError}</Text> : null}
               {!log && !logError ? <ActivityIndicator color={colors.ink} /> : null}
-              {log ? (
-                <View style={styles.logBox}>
-                  <Text style={styles.log} selectable>
-                    {log.length ? log.join('\n') : 'Nothing written yet.'}
-                  </Text>
-                </View>
-              ) : null}
+              {log ? <LogBox lines={log} empty="Nothing written yet." /> : null}
               <Button label="Reload" onPress={loadLog} />
             </Plate>
           ) : null}
@@ -208,6 +203,4 @@ const styles = StyleSheet.create({
   stepOff: { opacity: 0.4 },
   stepText: { fontFamily: fonts.regular, fontSize: 22, color: colors.ink },
   stepValue: { minWidth: 70, textAlign: 'center', fontFamily: fonts.light, fontSize: 24, color: colors.ink, fontVariant: ['tabular-nums'] },
-  logBox: { backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: space.s, maxHeight: 420 },
-  log: { fontFamily: Platform.select({ ios: 'Menlo', default: 'monospace' }), fontSize: 11, lineHeight: 15, color: colors.ink2 },
 });

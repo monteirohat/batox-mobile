@@ -6,7 +6,7 @@ console and manage it from your phone. Built with Expo (React Native).
 > **Status:** early work. The app installs and updates BatoX on a console, connects to one that
 > already runs it, shows how each console is doing, and brings BatoX's features over one by one:
 > the games (and playing one on the TV), uploading games and music, messages on the TV, the play
-> timer, closing the running game, extensions and logs so far. It isn't in the App Store or Google
+> timer, closing the running game, EmulationStation, video, audio, extensions and logs so far. It isn't in the App Store or Google
 > Play yet.
 
 ## What it does
@@ -46,6 +46,14 @@ console and manage it from your phone. Built with Expo (React Native).
     remove) with their settings, in the control each manifest asks for, and their log; and the
     catalog's, with what each may do, before installing.
 11. **Logs**: BatoX's activity and errors, and EmulationStation's log, newest first.
+12. **EmulationStation**: reload the game lists, restart, stop or start it; edit es_settings.cfg
+    (search, change or add a setting, with or without a restart); install a theme from a .zip;
+    and its log, which can be cleared.
+13. **Video**: the screens connected now, which one shows EmulationStation and the games, and
+    whether the second one stays on. The change applies when the console restarts, which the app
+    offers.
+14. **Audio**: where the sound comes out (a screen over HDMI, the headphone jack, USB or
+    Bluetooth), a test sound, and a shortcut when the sound isn't on the main screen.
 
 ## What comes next
 
