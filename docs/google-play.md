@@ -101,32 +101,45 @@ own console and games, and name Batocera only to say what it works with.
   https://github.com/monteirohat/BatoX
 - **Privacy policy**: https://github.com/monteirohat/batox-mobile/blob/main/PRIVACY.md
 
-## 4. App content
+## 4. Set up your app (the Dashboard's list)
 
-- **App access**: *All or some functionality is restricted*. The reviewers have no Batocera
-  console, so explain it and give them a way to see the app work:
+The Dashboard's **Set up your app** lists these tasks, in this order:
 
-  > BatoX manages a Batocera game console on the user's own network, so every screen after the
-  > welcome needs one. Without a console, "Install BatoX on a console" and "I already have BatoX"
-  > show their forms and say why they can't connect. A video of the app connected to a console:
-  > https://www.youtube.com/watch?v=zLaTp0-zb3c
+- **Set privacy policy**: https://github.com/monteirohat/batox-mobile/blob/main/PRIVACY.md
+- **Sign in details** (formerly "App access"): *All or some functionality is restricted*, with one
+  instruction. The reviewers have no Batocera console, so it explains that and links the video.
+  - **Name**: `Batocera console required`
+  - **Username** and **Password**: `Not needed` if the form insists (the app has no sign-in)
+  - **Any other information**:
 
-  The video (two or three minutes: connect, the home, a message on the TV, the timer, a setting)
-  is the part that avoids a rejection for "app doesn't work". It is on the Algore Tecnologia
-  YouTube channel, unlisted, and keeps commercial games' names and covers out. It was recorded on
-  a phone with `adb shell screenrecord`, with Android's demo mode for a clean status bar.
+    > BatoX manages a Batocera game console on the user's own network, so every screen after the
+    > welcome needs one. Without a console, "Install BatoX on a console" and "I already have BatoX"
+    > show their forms and say why they can't connect. A video of the app connected to a console:
+    > https://www.youtube.com/watch?v=zLaTp0-zb3c
+
+  The video (connect, the home, a message on the TV, the timer, a setting) is the part that avoids
+  a rejection for "app doesn't work". It is on the Algore Tecnologia YouTube channel, unlisted,
+  and keeps commercial games' names and covers out. It was recorded on a phone with
+  `adb shell screenrecord`, with Android's demo mode for a clean status bar.
 - **Ads**: no.
-- **Content rating**: the questionnaire, category Utility; no violence, user content shared with
-  others, or purchases. The result is Everyone / PEGI 3.
-- **Target audience**: 18 and over (it manages a device and its files; not designed for children).
-- **Data safety**:
-  - Does the app collect or share user data? **No.** Google counts data as collected when it is
-    sent off the device to the developer or a third party. The app sends data only to the user's
-    own console, and talks to GitHub only to list BatoX's releases, without any user data.
-  - Is data encrypted in transit? Answered only when something is collected; nothing is.
-  - Can users ask for their data to be deleted? Nothing is kept off the phone; forgetting a
-    console in the app, or uninstalling it, removes what the phone keeps.
-- **Government app, financial features, health, news**: no.
+- **Content rating**: the questionnaire with info@algore.com.br, category *All other app types*;
+  no to everything (violence, content users share, purchases, location). The result is
+  Everyone / PEGI 3.
+- **Target audience**: 18 and over only (it manages a device and its files; not designed for
+  children); it doesn't appeal to children.
+- **Data safety**: does the app collect or share any of the required user data types? **No.**
+  Google counts data as collected when it is sent off the device to the developer or a third
+  party. The app sends data only to the user's own console, and talks to GitHub only to list
+  BatoX's releases, without any user data. Forgetting a console in the app, or uninstalling it,
+  removes what the phone keeps.
+- **Government apps**: no. **Financial features**: none. **Health**: none.
+- **Trader status**: a trader (Algore Tecnologia), as declared for the account.
+- **Select an app category and provide contact details**: App, **Tools**, info@algore.com.br,
+  https://github.com/monteirohat/BatoX.
+- **Set up your store listing**: section 3.
+
+The bundle goes up from the menu on the left: **Test and release → Testing → Internal testing**
+(or **Production**).
 
 ## 5. Permissions
 
