@@ -109,11 +109,12 @@ own console and games, and name Batocera only to say what it works with.
   > BatoX manages a Batocera game console on the user's own network, so every screen after the
   > welcome needs one. Without a console, "Install BatoX on a console" and "I already have BatoX"
   > show their forms and say why they can't connect. A video of the app connected to a console:
-  > <link to an unlisted video>.
+  > https://www.youtube.com/watch?v=zLaTp0-zb3c
 
   The video (two or three minutes: connect, the home, a message on the TV, the timer, a setting)
-  is the part that avoids a rejection for "app doesn't work". Upload it to YouTube as *unlisted*,
-  and keep commercial games' names and covers out of it too.
+  is the part that avoids a rejection for "app doesn't work". It is on the Algore Tecnologia
+  YouTube channel, unlisted, and keeps commercial games' names and covers out. It was recorded on
+  a phone with `adb shell screenrecord`, with Android's demo mode for a clean status bar.
 - **Ads**: no.
 - **Content rating**: the questionnaire, category Utility; no violence, user content shared with
   others, or purchases. The result is Everyone / PEGI 3.
