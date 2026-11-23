@@ -142,6 +142,8 @@ development, so a development build installs as another app).
   GitHub issue with the app's and the phone's versions filled in, or an email to Algore
   Tecnologia), the source code of the app and of BatoX, the publisher, the privacy policy and the
   license.
+- Screenshots of the app in the README (`docs/assets/screenshots/`), and the Sponsor button
+  (`.github/FUNDING.yml`) with a section to support the project, as in BatoX.
 - Scrolling screens span the whole width (`src/theme/page.ts`): the scroll bar sits at the screen's
   edge instead of inside the side margin, which made the screen look like a smaller box.
 - Batocera settings (`/batocera/settings`): the categories, general and per game system, with their

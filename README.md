@@ -3,12 +3,20 @@
 BatoX for iOS and Android: install [BatoX](https://github.com/monteirohat/BatoX) on your Batocera
 console and manage it from your phone. Built with Expo (React Native).
 
-> **Status:** version 1.0.0, getting ready for Google Play (a closed test comes first). The app
+> **Status:** version 1.0.0, on its way to Google Play, published by Algore Tecnologia. The app
 > installs and updates BatoX on a console, connects to one that already runs it, and has every
 > screen of the web panel: the games (and playing one on the TV), uploading games and music,
 > messages on the TV, the play timer, closing the running game, EmulationStation, video, audio,
 > Batocera's settings, the game library, consoles, extensions, logs and API access. The App Store
 > comes after.
+
+| Home | Menu | Games | A game |
+|---|---|---|---|
+| <img src="docs/assets/screenshots/home.png" alt="A console's home" width="200"> | <img src="docs/assets/screenshots/menu.png" alt="The side menu" width="200"> | <img src="docs/assets/screenshots/games.png" alt="Games" width="200"> | <img src="docs/assets/screenshots/game-details.png" alt="A game's page" width="200"> |
+
+| Consoles | Batocera settings | Messages | About |
+|---|---|---|---|
+| <img src="docs/assets/screenshots/consoles.png" alt="Consoles" width="200"> | <img src="docs/assets/screenshots/batocera-settings.png" alt="Batocera settings" width="200"> | <img src="docs/assets/screenshots/messages.png" alt="Messages on the TV" width="200"> | <img src="docs/assets/screenshots/about.png" alt="About the app" width="200"> |
 
 ## What it does
 
@@ -162,6 +170,29 @@ A development build loads the JavaScript from `npm start` on the computer, on th
 
 No account, analytics or ads: the app talks only to your consoles and to GitHub (to list BatoX's
 releases). See the [privacy policy](PRIVACY.md).
+
+## Support the project
+
+The app and BatoX are free and will stay free. If they are useful to you and you want to support
+the project, any amount helps.
+
+<p>
+  <a href="#support-the-project"><img src="https://img.shields.io/badge/Donate-PIX-32BCAD?style=for-the-badge&logo=pix&logoColor=white" alt="Donate with PIX"></a>
+  <a href="https://revolut.me/andrludegv"><img src="https://img.shields.io/badge/Donate-Revolut-0666EB?style=for-the-badge&logo=revolut&logoColor=white" alt="Donate with Revolut"></a>
+  <a href="https://www.paypal.me/AMonteiro818"><img src="https://img.shields.io/badge/Donate-PayPal-003087?style=for-the-badge&logo=paypal&logoColor=white" alt="Donate with PayPal"></a>
+</p>
+
+- **PIX**, from Brazil: use this random key in the app of your bank.
+
+  ```
+  abf3de6b-bad4-4225-8667-c941ebd31039
+  ```
+
+- **Revolut**, from anywhere: open [revolut.me/andrludegv](https://revolut.me/andrludegv), or send
+  to the tag **@andrludegv** in the app.
+
+- **PayPal**, from anywhere: open [paypal.me/AMonteiro818](https://www.paypal.me/AMonteiro818) and
+  choose the amount.
 
 ## License
 
