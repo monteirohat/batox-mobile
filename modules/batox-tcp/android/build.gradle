@@ -3,11 +3,11 @@ plugins {
   id 'expo-module-gradle-plugin'
 }
 
-group = 'io.github.monteirohat.batox.tcp'
+group = 'br.com.algore.batox.tcp'
 version = '0.1.0'
 
 android {
-  namespace "io.github.monteirohat.batox.tcp"
+  namespace "br.com.algore.batox.tcp"
   defaultConfig {
     versionCode 1
     versionName "0.1.0"

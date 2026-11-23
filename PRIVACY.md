@@ -1,11 +1,11 @@
 # Privacy policy
 
 BatoX for iOS and Android ("the app") manages a Batocera console on your own network. This page
-says what the app keeps, what it sends and where. It applies to the app published as **BatoX** on
-Google Play and the App Store, package `io.github.monteirohat.batox`.
+says what the app keeps, what it sends and where. It applies to the app published as **BatoX** by
+**Algore Tecnologia** on Google Play and the App Store, package `br.com.algore.batox`.
 
-**In short:** the app has no account, no analytics, no ads and no server of its own. The
-developer receives nothing from it.
+**In short:** the app has no account, no analytics, no ads and no server of its own. Algore
+Tecnologia receives nothing from it.
 
 ## What the app keeps on your phone
 
@@ -31,7 +31,7 @@ saved.
 - **A game library you add yourself**: its address is sent to your console, which reads it. The
   phone doesn't contact it.
 
-Nothing is sent to the developer or to any other party.
+Nothing is sent to Algore Tecnologia or to any other party.
 
 ## Files the app reads
 
@@ -44,7 +44,8 @@ The app isn't directed at children and doesn't knowingly collect anything from a
 
 ## Changes and contact
 
-Changes to this policy are published on this page, with the date below. Questions:
+Changes to this policy are published on this page, with the date below. Questions about privacy:
+Algore Tecnologia, [info@algore.com.br](mailto:info@algore.com.br), or
 [open an issue](https://github.com/monteirohat/batox-mobile/issues).
 
 Last updated: 2026-11-23.

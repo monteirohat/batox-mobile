@@ -1,4 +1,4 @@
-package io.github.monteirohat.batox.tcp
+package br.com.algore.batox.tcp
 
 import android.util.Base64
 import expo.modules.kotlin.Promise

@@ -8,7 +8,9 @@ All notable changes to this project are documented here. The format follows
 
 ## [1.0.0] - 2026-11-23
 
-The first version for the stores.
+The first version for the stores, published by Algore Tecnologia. The app's ID is now
+`br.com.algore.batox` on Android and iOS (it was `io.github.monteirohat.batox` during
+development, so a development build installs as another app).
 
 ### Security
 
@@ -23,7 +25,10 @@ The first version for the stores.
 ### Added
 
 - A privacy policy ([PRIVACY.md](PRIVACY.md)) and the Google Play steps
-  ([docs/google-play.md](docs/google-play.md)).
+  ([docs/google-play.md](docs/google-play.md)), with the listing's texts.
+- The Play listing's images in `store/android/`: the 512 icon and the feature graphic (drawn by
+  `tools/render-store.py`) and six phone screenshots.
+- The EAS project, in the `algore-tecnologia` Expo organization.
 - Library downloads can be cancelled (and leaving the screen cancels them); BatoX stops the one in
   progress.
 - An upload that stalls for a minute, or whose answer doesn't come within two minutes of the last

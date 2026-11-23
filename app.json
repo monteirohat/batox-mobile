@@ -2,6 +2,7 @@
   "expo": {
     "name": "BatoX",
     "slug": "batox-mobile",
+    "owner": "algore-tecnologia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,7 +10,7 @@
     "userInterfaceStyle": "dark",
     "backgroundColor": "#050B1A",
     "ios": {
-      "bundleIdentifier": "io.github.monteirohat.batox",
+      "bundleIdentifier": "br.com.algore.batox",
       "icon": "./assets/images/icon.png",
       "supportsTablet": true,
       "infoPlist": {
@@ -20,7 +21,7 @@
       }
     },
     "android": {
-      "package": "io.github.monteirohat.batox",
+      "package": "br.com.algore.batox",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
@@ -63,6 +64,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6af4fd45-af2e-4afe-81d4-1e2822ff6daa"
+      }
     }
   }
 }

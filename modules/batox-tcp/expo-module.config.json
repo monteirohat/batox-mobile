@@ -4,6 +4,6 @@
     "modules": ["BatoxTcpModule"]
   },
   "android": {
-    "modules": ["io.github.monteirohat.batox.tcp.BatoxTcpModule"]
+    "modules": ["br.com.algore.batox.tcp.BatoxTcpModule"]
   }
 }

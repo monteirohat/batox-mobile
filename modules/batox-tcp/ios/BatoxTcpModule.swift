@@ -5,7 +5,7 @@ import Network
 // JavaScript as base64. NWConnection keeps sends in the order they are made, and every callback
 // runs on one serial queue.
 public class BatoxTcpModule: Module {
-  private let queue = DispatchQueue(label: "io.github.monteirohat.batox.tcp")
+  private let queue = DispatchQueue(label: "br.com.algore.batox.tcp")
   private var connections: [String: NWConnection] = [:]
   private let lock = NSLock()
 

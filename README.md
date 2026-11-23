@@ -122,13 +122,13 @@ Expo Go. On a Mac whose default Java doesn't run, point `JAVA_HOME` at Android S
 
 ### Builds with EAS
 
-iOS builds run on Expo's servers ([EAS Build](https://docs.expo.dev/build/introduction/)), with the
-profiles in [eas.json](eas.json). Once, sign in and link the project (this adds its EAS id to
-`app.json`):
+Store builds, and iOS builds, run on Expo's servers
+([EAS Build](https://docs.expo.dev/build/introduction/)), with the profiles in
+[eas.json](eas.json). The project belongs to the `algore-tecnologia` Expo organization (`owner`
+and `extra.eas.projectId` in `app.json`); sign in with an account that is a member of it:
 
 ```bash
 npx eas-cli@latest login
-npx eas-cli@latest init
 ```
 
 Then:
@@ -138,6 +138,7 @@ npx eas-cli@latest build --profile development-simulator --platform ios   # for 
 npx eas-cli@latest build --profile development --platform android         # an APK to install on an Android phone
 npx eas-cli@latest build --profile development --platform ios             # for an iPhone: needs the Apple Developer Program,
                                                                           # and the phone registered with `eas device:create`
+npx eas-cli@latest build --profile production --platform android          # the bundle for Google Play (docs/google-play.md)
 ```
 
 A development build loads the JavaScript from `npm start` on the computer, on the same network.
@@ -149,7 +150,9 @@ A development build loads the JavaScript from `npm start` on the computer, on th
 - The images in `assets/images/` (icon, splash, wordmark, backdrop) are drawn from the BatoX
   Installer's icon, the web panel's wordmark and the theme's sunset scene by
   `python3 tools/render-assets.py`, which reads those repositories from the same folder as this
-  one and needs Google Chrome.
+  one and needs Google Chrome. The Play listing's icon and feature graphic, in `store/android/`,
+  come from `python3 tools/render-store.py`; its screenshots from the app (see
+  [docs/google-play.md](docs/google-play.md)).
 
 ## Privacy
 
