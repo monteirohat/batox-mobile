@@ -3,22 +3,24 @@
 BatoX for iOS and Android: install [BatoX](https://github.com/monteirohat/BatoX) on your Batocera
 console and manage it from your phone. Built with Expo (React Native).
 
-> **Status:** early work. The app installs and updates BatoX on a console, connects to one that
-> already runs it, shows how each console is doing, and brings BatoX's features over one by one:
-> the games (and playing one on the TV), uploading games and music, messages on the TV, the play
-> timer, closing the running game, EmulationStation, video, audio, Batocera's settings, the game
-> library, consoles, extensions, logs and API access: every screen of the web panel. It isn't in the App Store or Google
-> Play yet.
+> **Status:** version 1.0.0, getting ready for Google Play (a closed test comes first). The app
+> installs and updates BatoX on a console, connects to one that already runs it, and has every
+> screen of the web panel: the games (and playing one on the TV), uploading games and music,
+> messages on the TV, the play timer, closing the running game, EmulationStation, video, audio,
+> Batocera's settings, the game library, consoles, extensions, logs and API access. The App Store
+> comes after.
 
 ## What it does
 
 1. **Install BatoX** on a Batocera console, as the
    [BatoX Installer](https://github.com/monteirohat/BatoX_Installer) does on a computer: type the
    console's address and SSH login, check the console, pick a version (the latest is chosen).
-   The console downloads the release from GitHub and checks its SHA-256 sums, then the app
-   installs the service, starts it, waits for it to answer, and shows the address and the access
-   token. The token is kept in the phone's secure storage (Keychain, Android Keystore). Updating
-   and reinstalling keep the console's token, settings and catalog.
+   The console downloads the release from GitHub and checks its SHA-256 sums (a file missing from
+   them stops the install), then the app installs the service, starts it, waits for it to answer,
+   and shows the address and the access token. The token is kept in the phone's secure storage
+   (Keychain, Android Keystore). Updating and reinstalling keep the console's token, settings and
+   catalog. The app remembers each console's SSH host key: when it changes, the password isn't
+   sent until you trust the new key. The SSH password itself is never saved.
 
 2. **Connect** to a console that already runs BatoX, with its address and access token. The app
    checks both (BatoX answers, the token is taken) before keeping them.
@@ -70,8 +72,10 @@ console and manage it from your phone. Built with Expo (React Native).
 
 ## What comes next
 
-1. **The stores**: builds with EAS for the App Store and Google Play.
-2. **New BatoX features** come to the app as they reach the web panel, through BatoX's
+1. **Google Play**: the closed test, then production; the steps and the Play Console's answers
+   are in [docs/google-play.md](docs/google-play.md).
+2. **The App Store**, with the same build profiles.
+3. **New BatoX features** come to the app as they reach the web panel, through BatoX's
    [API](https://github.com/monteirohat/BatoX/blob/main/docs/api.md).
 
 ## Look
@@ -146,6 +150,11 @@ A development build loads the JavaScript from `npm start` on the computer, on th
   Installer's icon, the web panel's wordmark and the theme's sunset scene by
   `python3 tools/render-assets.py`, which reads those repositories from the same folder as this
   one and needs Google Chrome.
+
+## Privacy
+
+No account, analytics or ads: the app talks only to your consoles and to GitHub (to list BatoX's
+releases). See the [privacy policy](PRIVACY.md).
 
 ## License
 

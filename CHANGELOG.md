@@ -6,7 +6,32 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-23
+
+The first version for the stores.
+
+### Security
+
+- The app remembers each console's SSH host key and checks it on every install and update: a
+  console that answers with another key gets no password until the new key is trusted, with both
+  keys shown. The key is shown on the console's card, and whether the phone saw it before.
+- A downloaded file that isn't in the release's SHA256SUMS stops the install, instead of going in
+  unchecked.
+- Android permissions the app doesn't use are blocked: drawing over other apps, fingerprint and
+  biometrics, and external storage.
+
 ### Added
+
+- A privacy policy ([PRIVACY.md](PRIVACY.md)) and the Google Play steps
+  ([docs/google-play.md](docs/google-play.md)).
+- Library downloads can be cancelled (and leaving the screen cancels them); BatoX stops the one in
+  progress.
+- An upload that stalls for a minute, or whose answer doesn't come within two minutes of the last
+  byte, stops with the reason instead of waiting forever.
+- An address the phone doesn't know opens a screen that says so, with Choose a console, instead of
+  screens that never finish loading.
+- A failure to read the saved consoles no longer lets a change write over them; forgetting a
+  console, or keeping one after an install, says when it fails.
 
 - The Expo app (SDK 58, Expo Router, TypeScript) for iOS and Android, dark only.
 - BatoX's look: the web panel's tokens (colors, Inter in three weights, square corners), the
