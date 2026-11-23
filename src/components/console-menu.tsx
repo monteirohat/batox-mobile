@@ -20,6 +20,8 @@ export const MENU: { route: string; label: string; icon: Icon }[] = [
   { route: 'music', label: 'Music', icon: 'music' },
   { route: 'message', label: 'Messages', icon: 'message-square' },
   { route: 'timer', label: 'Timer', icon: 'clock' },
+  { route: 'extensions', label: 'Extensions', icon: 'package' },
+  { route: 'logs', label: 'Logs', icon: 'list' },
 ];
 
 // The side menu: the console it works on, its features (the open one is the selected surface in

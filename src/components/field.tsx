@@ -2,11 +2,12 @@ import { StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-na
 
 import { colors, fonts, space, type } from '@/theme/tokens';
 
-// A label in capitals over its input, as on the web panel's forms
-export function Field({ label, ...input }: { label: string } & TextInputProps) {
+// A label in capitals over its input, as on the web panel's forms; without a label when the input
+// already sits under its name
+export function Field({ label, ...input }: { label?: string } & TextInputProps) {
   return (
     <View style={styles.field}>
-      <Text style={type.label}>{label}</Text>
+      {label ? <Text style={type.label}>{label}</Text> : null}
       <TextInput
         placeholderTextColor={colors.ink3}
         selectionColor={colors.link}

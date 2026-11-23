@@ -197,3 +197,56 @@ export const deleteMusic = (e: Endpoint, path: string) => request<{ status: stri
 // Restarts or turns off the console a second after answering (202)
 export const reboot = (e: Endpoint) => request<unknown>(e, '/reboot', { method: 'POST' });
 export const shutdown = (e: Endpoint) => request<unknown>(e, '/shutdown', { method: 'POST' });
+
+// --- Extensions (BatoX docs/api.md, the batox-extensions catalog) ---------------------------------
+
+export type ExtensionControl =
+  | { type: 'text' }
+  | { type: 'toggle' }
+  | { type: 'number'; unit?: string }
+  | { type: 'select'; choices?: { value: string; label?: string }[] }
+  | { type: 'range'; min: number; max: number; step?: number; unit?: string };
+
+export type ExtensionSetting = { key: string; label: string; description?: string; default?: string; control?: ExtensionControl };
+
+export type Extension = {
+  id: string;
+  name: string;
+  summary?: string;
+  description?: string;
+  homepage?: string;
+  permissions?: string[];
+  settings?: ExtensionSetting[];
+  installed?: string;
+  available?: string;
+  update?: boolean;
+  supported: boolean;
+  enabled?: boolean;
+  status?: { state: 'running' | 'stopped' | 'restarting'; pid?: number; since?: string; restarts?: number; error?: string };
+  values?: Record<string, string>;
+};
+
+export type Extensions = {
+  platform: string;
+  items: Extension[];
+  catalogState: 'ok' | 'unpublished' | 'unreachable';
+  catalogError?: string;
+  catalogUpdated?: string;
+};
+
+export type LogLines = { file: string; lines: string[] };
+
+export const getExtensions = (e: Endpoint, refresh = false) => request<Extensions>(e, `/extensions${refresh ? '?refresh=true' : ''}`, { timeoutMs: 20000 });
+export const installExtension = (e: Endpoint, id: string) => request<Extensions>(e, `/extensions/${encodeURIComponent(id)}/install`, { method: 'POST', timeoutMs: 120000 });
+export const setExtensionEnabled = (e: Endpoint, id: string, enabled: boolean) =>
+  request<unknown>(e, `/extensions/${encodeURIComponent(id)}/enabled`, { method: 'PUT', body: { enabled }, timeoutMs: 30000 });
+export const saveExtensionSettings = (e: Endpoint, id: string, values: Record<string, string>) =>
+  request<unknown>(e, `/extensions/${encodeURIComponent(id)}/settings`, { method: 'PUT', body: { values }, timeoutMs: 30000 });
+export const restartExtension = (e: Endpoint, id: string) => request<unknown>(e, `/extensions/${encodeURIComponent(id)}/restart`, { method: 'POST', timeoutMs: 30000 });
+export const removeExtension = (e: Endpoint, id: string) => request<unknown>(e, `/extensions/${encodeURIComponent(id)}`, { method: 'DELETE', timeoutMs: 30000 });
+export const getExtensionLog = (e: Endpoint, id: string, tail = 300) => request<LogLines>(e, `/extensions/${encodeURIComponent(id)}/log?tail=${tail}`);
+
+// --- Logs ----------------------------------------------------------------------------------------
+
+export const getLogs = (e: Endpoint, kind: 'info' | 'error', tail: number) => request<LogLines>(e, `/logs?type=${kind}&tail=${tail}`);
+export const getEsLog = (e: Endpoint, tail: number) => request<LogLines>(e, `/emulationstation/logs?tail=${tail}`);

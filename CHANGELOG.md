@@ -71,5 +71,12 @@ All notable changes to this project are documented here. The format follows
   Open BatoX in the browser and Switch console. The features left the home screen.
 - The app opens on the console it used last. Switch console lists the saved consoles, to open
   another, add one, install BatoX on one, or forget one.
+- Extensions (`/extensions`): the installed ones with On and Off, their state (running since,
+  restarts, why it last stopped), Update, Restart and Remove; each one's settings, with the control
+  its manifest asks for (text, number, on/off, a choice, a range with − and +), saved together
+  with a restart, and its log. The catalog's extensions show what they may do and ask before
+  installing.
+- Logs: BatoX's activity and errors (`/logs`) and EmulationStation's log, newest first, 100, 200 or
+  1000 lines, refreshed by pulling down.
 - Uploaded files keep their real names, spaces and accents included: the app sends the name as
   `filename*=UTF-8''...` (RFC 5987), since React Native's FormData sends it percent-encoded.
