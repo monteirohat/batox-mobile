@@ -86,7 +86,8 @@ console and manage it from your phone. Built with Expo (React Native).
 
 1. **Google Play**: the closed test, then production; the steps and the Play Console's answers
    are in [docs/google-play.md](docs/google-play.md).
-2. **The App Store**, with the same build profiles.
+2. **The App Store**: the steps and App Store Connect's answers are in
+   [docs/app-store.md](docs/app-store.md).
 3. **New BatoX features** come to the app as they reach the web panel, through BatoX's
    [API](https://github.com/monteirohat/BatoX/blob/main/docs/api.md).
 

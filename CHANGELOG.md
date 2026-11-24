@@ -6,8 +6,19 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- iOS: the app is for iPhone only; iPads run it as an iPhone app. Since iOS 27 an iPad app has to
+  work in windows of any size, and an app released for iPad can't drop it later.
+- iOS: the app declares that it uses encryption of its own (its SSH client), as the App Store
+  requires; the steps for the App Store are in `docs/app-store.md`.
+
 ### Fixed
 
+- iOS: a connection that the console closes reaches the SSH client with no error, as on Android,
+  instead of an empty value of the wrong type.
+- iOS 26 and later: the side menu's button on Games, Consoles, Batocera and Extensions no longer
+  sits in a glass capsule that the other screens don't have.
 - Google Play no longer hides the app from devices that only run sideways (some Chromebooks,
   desktops and XR headsets): a config plugin (`plugins/with-optional-portrait.js`) marks the
   upright screen as optional, which locking the app upright made Android require. The app still

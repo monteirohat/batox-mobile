@@ -12,7 +12,10 @@
     "ios": {
       "bundleIdentifier": "br.com.algore.batox",
       "icon": "./assets/images/icon.png",
-      "supportsTablet": true,
+      "supportsTablet": false,
+      "config": {
+        "usesNonExemptEncryption": true
+      },
       "infoPlist": {
         "NSLocalNetworkUsageDescription": "BatoX connects to your Batocera console on your home network to install and manage it.",
         "NSAppTransportSecurity": {

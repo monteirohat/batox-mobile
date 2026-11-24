@@ -1,3 +1,4 @@
+import { DrawerToggleButton } from 'expo-router/drawer';
 import { View } from 'react-native';
 
 import { colors, fonts } from '@/theme/tokens';
@@ -14,3 +15,13 @@ export const headerOptions = {
   headerTitleStyle: { fontFamily: fonts.regular },
   headerShadowVisible: false,
 } as const;
+
+// The side menu's button, for the first screen of a section with its own stack (Games, Consoles,
+// Batocera, Extensions). On iOS 26 and later the system draws a glass capsule behind header
+// buttons; the screens under the drawer's own header have none, so this one goes without it too.
+// Android uses headerLeft; iOS uses the header items when they are given.
+const drawerButton = () => <DrawerToggleButton tintColor={colors.ink} />;
+export const drawerButtonOptions = {
+  headerLeft: drawerButton,
+  unstable_headerLeftItems: () => [{ type: 'custom' as const, element: drawerButton(), hidesSharedBackground: true }],
+};

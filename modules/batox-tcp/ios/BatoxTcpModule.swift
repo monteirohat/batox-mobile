@@ -117,7 +117,8 @@ public class BatoxTcpModule: Module {
   // The connection ended on its own: tell JavaScript once
   private func finish(_ id: String, error: String?) {
     guard take(id) != nil else { return }
-    sendEvent("onClose", ["id": id, "error": error as Any])
+    // A nil error goes to JavaScript as null
+    sendEvent("onClose", ["id": id, "error": error])
   }
 
   private func store(_ id: String, _ connection: NWConnection) {
