@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-25
+
 ### Changed
 
 - iOS: the app is for iPhone only; iPads run it as an iPhone app. Since iOS 27 an iPad app has to
