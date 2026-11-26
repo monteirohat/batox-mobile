@@ -43,8 +43,10 @@ Upload the build to TestFlight:
 npx eas-cli@latest submit --platform ios --profile production --latest
 ```
 
-It asks for the app's ID in App Store Connect (App Information > Apple ID, a number); put it in
-[eas.json](../eas.json) under `submit.production.ios.ascAppId` so later submits don't ask. An App
+`eas submit` can't create the account's first app: Apple then asks for the company name, which
+the API call leaves out ("You must provide a value for the attribute 'companyName'"), so the app
+was created by hand. Its Apple ID, **6839734943** (App Information > Apple ID), is in
+[eas.json](../eas.json) under `submit.production.ios.ascAppId`, so submits skip that step. An App
 Store Connect API key (Users and Access > Integrations, role App Manager) lets EAS submit without
 the Apple Account's password.
 
