@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- Expo 58.1 and the SDK's latest patches (expo-crypto, expo-dev-client, expo-image, expo-router,
+  expo-splash-screen), which `expo-doctor` in CI now asks for; `expo-image` is listed as a config
+  plugin, as its new version expects.
+
 ## [1.0.1] - 2026-11-25
 
 ### Changed
