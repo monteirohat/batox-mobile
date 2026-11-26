@@ -14,7 +14,7 @@
       "icon": "./assets/images/icon.png",
       "supportsTablet": false,
       "config": {
-        "usesNonExemptEncryption": true
+        "usesNonExemptEncryption": false
       },
       "infoPlist": {
         "NSLocalNetworkUsageDescription": "BatoX connects to your Batocera console on your home network to install and manage it.",

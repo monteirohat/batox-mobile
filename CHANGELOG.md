@@ -12,8 +12,9 @@ All notable changes to this project are documented here. The format follows
 
 - iOS: the app is for iPhone only; iPads run it as an iPhone app. Since iOS 27 an iPad app has to
   work in windows of any size, and an app released for iPad can't drop it later.
-- iOS: the app declares that it uses encryption of its own (its SSH client), as the App Store
-  requires; the steps for the App Store are in `docs/app-store.md`.
+- iOS: the app declares its encryption for the App Store: its SSH client uses standard algorithms,
+  which need no documents while the app isn't on the App Store in France
+  (`ITSAppUsesNonExemptEncryption` NO). The steps for the App Store are in `docs/app-store.md`.
 
 ### Fixed
 

@@ -85,22 +85,35 @@ the team; no review by Apple), install **TestFlight** on an iPhone and check aga
 ## 4. Export compliance (encryption)
 
 The app has its own SSH client (`src/ssh/`, on the @noble libraries), so it implements standard
-encryption itself instead of using only Apple's. Apple's rule
-([Complying with encryption export regulations](https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations)):
-`ITSAppUsesNonExemptEncryption` is `YES` unless the app uses no encryption or only exempt forms.
-`app.json` sets it (`ios.config.usesNonExemptEncryption: true`).
-
-In App Store Connect, the build then asks a few questions before it can be tested or submitted.
-The answer that fits is **standard encryption algorithms, instead of or in addition to the
-encryption within Apple's operating system** (not proprietary ones). Per Apple's
+encryption itself instead of using only Apple's. Per Apple's
 [table](https://developer.apple.com/help/app-store-connect/reference/export-compliance-documentation-for-encryption),
-that needs **no US documents**, only the **French encryption declaration**, and only when the app
-is on the App Store in France.
+standard algorithms outside Apple's operating system need **no US documents**, only the **French
+encryption declaration**, and only when the app is on the App Store in France.
 
-**Decision for the first release: leave France out** of the app's availability (Pricing and
-Availability), and answer that the app won't be on the App Store in France. France can be added
-later, once the declaration is filed with the French cybersecurity agency (ANSSI) and uploaded to
-App Store Connect.
+**France is left out** of the app's availability (Pricing and Availability), so no document is
+needed, and `app.json` says so: `ios.config.usesNonExemptEncryption: false`, which writes
+`ITSAppUsesNonExemptEncryption = NO`. Apple's rule
+([Complying with encryption export regulations](https://developer.apple.com/documentation/security/complying-with-encryption-export-regulations)):
+NO when the app "only uses forms of encryption that are exempt from export compliance
+documentation requirements".
+
+Don't set it to `true`: App Store Connect then expects the code it gives for approved
+documentation (`ITSEncryptionExportComplianceCode`), and refuses a build without it. Build 1.0.1 (3)
+was refused that way: *ITMS-90592: Invalid Export Compliance Code — the export compliance key value
+[] in the app's Info.plist doesn't match the key value of the app's export compliance
+documentation.*
+
+App Store Connect's own questions confirm it (App Information > App Encryption Documentation > +;
+the purpose, then **standard encryption algorithms instead of, or in addition to, using or
+accessing the encryption within Apple's operating system**, then France: **No**). It answers:
+*"Based on your answers, you don't need to upload any documents. You can specify that you don't
+use encryption in the information property list (Info.plist)…"*, and the dialog closes with OK,
+with nothing uploaded. The page above that button lists standard algorithms among the cases that
+need documentation; the answer about France is what settles it.
+
+To add France later: file the declaration with the French cybersecurity agency (ANSSI), upload it
+to App Store Connect, and put the code Apple gives back in `ios.infoPlist`
+(`ITSEncryptionExportComplianceCode`), with `usesNonExemptEncryption: true`.
 
 ## 5. App information
 
