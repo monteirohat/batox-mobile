@@ -82,6 +82,8 @@ the team; no review by Apple), install **TestFlight** on an iPhone and check aga
 - installing BatoX over SSH, the home, a message on the TV, the timer, uploading a file from
   Files, a setting.
 
+Build 1.0.1 (4) was installed from TestFlight on an iPhone and works against the Pi.
+
 ## 4. Export compliance (encryption)
 
 The app has its own SSH client (`src/ssh/`, on the @noble libraries), so it implements standard
@@ -134,7 +136,16 @@ platforms, so the text doesn't mention Android.
 - **Marketing URL**: https://github.com/monteirohat/BatoX
 - **Privacy policy URL**: https://github.com/monteirohat/batox-mobile/blob/main/PRIVACY.md
 - **Copyright**: `2026 Algore Tecnologia`
-- **Price**: free. **Availability**: every country but France (section 4).
+- **Content Rights**: no third-party content. The app has no catalog and plays or delivers nothing;
+  it only lists what is already on the user's own console.
+- **License Agreement**: Apple's standard EULA. The source is MIT, which doesn't clash with it
+  (GPL would).
+- **Price**: free. **Availability**: every country but France (section 4) and China mainland.
+  China mainland asks for proof of a Security Assessment, an AI-generated content (AIGC)
+  declaration and an ICP filing number, all from Chinese authorities: App Store Connect won't take
+  the version for review without them while China mainland is ticked. Hong Kong, Macau and Taiwan
+  are separate storefronts without these, and stay in.
+- **Mac and Apple Vision Pro**: off (Pricing and Availability), until the app is tested there.
 
 ## 6. Screenshots
 
@@ -142,10 +153,11 @@ The app is for iPhone only (`supportsTablet: false`): iPads run it as an iPhone 
 listing needs no iPad screenshots, and since iOS 27 an iPad app has to work in windows of any size.
 An app released for iPad can't drop it later; adding it later is allowed.
 
-App Store Connect needs the **6.9" iPhone** set and scales it for the smaller iPhones. They are in
-[store/ios/](../store/ios/), 1320 × 2868, the same six screens as on Google Play, in the same
-order. They were taken on the **iPhone 18 Pro Max** simulator, with a console on the menu (no game
-running, so no game's name or picture shows):
+App Store Connect asks for one set, **iPhone with Dynamic Island (medium display)**, at 1179 × 2556
+or 1206 × 2622, and scales it for the other iPhones. They are in [store/ios/](../store/ios/),
+1206 × 2622, the same six screens as on Google Play, in the same order. They were taken on the
+**iPhone 18 Pro** simulator, with a console on the menu (no game running, so no game's name or
+picture shows):
 
 ```bash
 xcrun simctl io booted screenshot shot.png
@@ -154,6 +166,9 @@ ffmpeg -i shot.png -pix_fmt rgb24 store/ios/2-home.png    # App Store Connect re
 
 `simctl status_bar … override` doesn't take on the iOS 27.2 simulator, so the status bar shows the
 real time; Apple doesn't require a clean one.
+
+The **Header and Search Results** image (the wide banner above the screenshots) is optional; the
+listing shows the screenshots without it.
 
 ## 7. App Privacy
 
@@ -192,6 +207,8 @@ is the main risk. Fill **App Review Information** with:
 
 If Apple still asks to try it, the answer is a demo mode with a simulated console; it doesn't exist
 yet.
+
+Version 1.0.1 (build 4) was submitted on 2026-11-27, released automatically once approved.
 
 ## 10. Before each release
 
