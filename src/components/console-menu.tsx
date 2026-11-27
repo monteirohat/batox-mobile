@@ -17,6 +17,7 @@ export const MENU: { route: string; label: string; icon: IconName }[] = [
   { route: 'games', label: 'Games', icon: 'games' },
   { route: 'consoles', label: 'Consoles', icon: 'consoles' },
   { route: 'upload', label: 'Upload games', icon: 'upload' },
+  { route: 'bios', label: 'BIOS', icon: 'bios' },
   { route: 'library', label: 'Library', icon: 'library' },
   { route: 'music', label: 'Music', icon: 'music' },
   { route: 'message', label: 'Messages', icon: 'messages' },

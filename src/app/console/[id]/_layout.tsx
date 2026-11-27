@@ -41,6 +41,7 @@ export default function ConsoleLayout() {
         <Drawer.Screen name="games" options={{ title: 'Games', headerShown: false }} />
         <Drawer.Screen name="consoles" options={{ title: 'Consoles', headerShown: false }} />
         <Drawer.Screen name="upload" options={{ title: 'Upload games' }} />
+        <Drawer.Screen name="bios" options={{ title: 'BIOS' }} />
         <Drawer.Screen name="library" options={{ title: 'Library' }} />
         <Drawer.Screen name="music" options={{ title: 'Music' }} />
         <Drawer.Screen name="message" options={{ title: 'Messages' }} />

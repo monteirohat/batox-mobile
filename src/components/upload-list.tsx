@@ -6,7 +6,8 @@ import { colors, fonts, space } from '@/theme/tokens';
 
 const MARK: Record<Exclude<QueueItem['state'], 'uploading'>, string> = { waiting: '·', done: '✓', skipped: '–', error: '✕' };
 
-// The files of an upload, one per row: waiting, sending (with its percentage), sent, skipped or failed
+// The files of an upload, one per row: waiting, sending (with its percentage), sent (in amber when
+// with a catch), skipped or failed
 export function UploadList({ items }: { items: QueueItem[] }) {
   return (
     <View style={styles.list}>
@@ -16,14 +17,16 @@ export function UploadList({ items }: { items: QueueItem[] }) {
             {item.state === 'uploading' ? (
               <ActivityIndicator size="small" color={colors.ink} />
             ) : (
-              <Text style={[styles.markText, item.state === 'done' && styles.ok, item.state === 'error' && styles.bad]}>{MARK[item.state]}</Text>
+              <Text style={[styles.markText, item.state === 'done' && (item.warn ? styles.warn : styles.ok), item.state === 'error' && styles.bad]}>
+                {item.warn ? '!' : MARK[item.state]}
+              </Text>
             )}
           </View>
           <View style={styles.text}>
             <Text style={styles.name} numberOfLines={2}>
               {item.name}
             </Text>
-            <Text style={[styles.detail, item.state === 'error' && styles.bad]}>
+            <Text style={[styles.detail, item.state === 'error' && styles.bad, item.warn && styles.warn]}>
               {item.state === 'uploading'
                 ? `Sending ${item.percent ?? 0}%`
                 : item.state === 'waiting'
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
   markText: { fontFamily: fonts.semibold, fontSize: 16, color: colors.ink3 },
   ok: { color: colors.ok },
   bad: { color: colors.danger },
+  warn: { color: colors.signal },
   text: { flex: 1, gap: 3 },
   name: { fontFamily: fonts.regular, fontSize: 15, color: colors.ink },
   detail: { fontFamily: fonts.regular, fontSize: 13, color: colors.ink2 },

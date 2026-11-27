@@ -6,6 +6,7 @@ export const ICONS = {
   games: "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 7h6v5H9zM9 17v1M12 17v1M15 17v1\"/>",
   consoles: "<rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"2\"/><path d=\"M8 20h8M12 16v4\"/><path d=\"M8.5 10h3M10 8.5v3M15 10h.01\"/>",
   upload: "<path d=\"M12 15V4M7 9l5-5 5 5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4\"/>",
+  bios: "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"1\"/><rect x=\"9.5\" y=\"9.5\" width=\"5\" height=\"5\"/><path d=\"M9.5 2v4M14.5 2v4M9.5 18v4M14.5 18v4M2 9.5h4M2 14.5h4M18 9.5h4M18 14.5h4\"/>",
   library: "<path d=\"M4 4h4v16H4zM10 4h4v16h-4zM16.5 5l3.5-.9 3 15.6-3.5.9z\"/>",
   music: "<path d=\"M9 18V5l12-2v13\"/><circle cx=\"6\" cy=\"18\" r=\"3\"/><circle cx=\"18\" cy=\"16\" r=\"3\"/>",
   messages: "<path d=\"M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z\"/><path d=\"M8.5 10.5h7M8.5 14h4.5\"/>",

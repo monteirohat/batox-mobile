@@ -46,38 +46,43 @@ console and manage it from your phone. Built with Expo (React Native).
    search, as on the web panel), pick files with the system's file picker, and they go one at a
    time to its folder, each with its progress. Files the system doesn't take, and games already on
    the console, are skipped with the reason.
-6. **Music**: the menus' background music, by folder (main, or a system's); upload tracks the same
+6. **BIOS**: the files each system needs, from Batocera's own list (the one of EmulationStation's
+   Missing BIOS Check), as on the web panel: a check on those in place, a filter and a search; pick
+   BIOS files of any system under any name, and BatoX puts each where Batocera looks for it,
+   recognized by its content; a file in another version can be deleted.
+7. **Music**: the menus' background music, by folder (main, or a system's); upload tracks the same
    way, or delete one.
-7. **Send a message** to the TV, even during a game: quick messages, and where, how long and
+8. **Send a message** to the TV, even during a game: quick messages, and where, how long and
    under which title it shows, as on the web panel's Messages screen.
-8. **Play timer**: a countdown on the TV, then BatoX closes the game, turns the console off or only
+9. **Play timer**: a countdown on the TV, then BatoX closes the game, turns the console off or only
    shows that the time is up; add 5 or 15 minutes, or cancel it.
-9. **Close the game** that is running, from the console's screen.
-10. **Extensions** from the official catalog: the installed ones (on or off, update, restart,
+10. **Close the game** that is running, from the console's screen.
+11. **Extensions** from the official catalog: the installed ones (on or off, update, restart,
     remove) with their settings, in the control each manifest asks for, and their log; and the
     catalog's, with what each may do, before installing.
-11. **Logs**: BatoX's activity and errors, and EmulationStation's log, newest first.
-12. **EmulationStation**: reload the game lists, restart, stop or start it; edit es_settings.cfg
+12. **Logs**: BatoX's activity and errors, and EmulationStation's log, newest first.
+13. **EmulationStation**: reload the game lists, restart, stop or start it; edit es_settings.cfg
     (search, change or add a setting, with or without a restart); install a theme from a .zip;
     and its log, which can be cleared.
-13. **Video**: the screens connected now, which one shows EmulationStation and the games, and
+14. **Video**: the screens connected now, which one shows EmulationStation and the games, and
     whether the second one stays on. The change applies when the console restarts, which the app
     offers.
-14. **Audio**: where the sound comes out (a screen over HDMI, the headphone jack, USB or
+15. **Audio**: where the sound comes out (a screen over HDMI, the headphone jack, USB or
     Bluetooth), a test sound, and a shortcut when the sound isn't on the main screen.
-15. **Consoles**: every system Batocera can emulate, as cards with the system's logo in white
+16. **Consoles**: every system Batocera can emulate, as cards with the system's logo in white
     (the theme's, with the dark or gray plate some logos come on cut off, as on batox-theme), a
     search, its type, the order, and only the ones with games; then a system's details, its ROM
-    folder and accepted files, Show games (the Games list, on that system) and Upload games.
-16. **Batocera settings**: every key in batocera.conf by category (general, then per game
+    folder and accepted files, how many of its BIOS files are in place, Show games (the Games list,
+    on that system), Upload games and BIOS files (the BIOS screen, on that system).
+17. **Batocera settings**: every key in batocera.conf by category (general, then per game
     system), each with its control: On and Off, a list (a long one opens a list with a search), a
     range, a number, text or a password; a search over all keys; and a new key, such as a
     per-game one.
-17. **Library**: download games from your own library (a library.json at an address you choose):
+18. **Library**: download games from your own library (a library.json at an address you choose):
     search, system, only those not on the console, one or many at a time, with covers.
-18. **Access**: the address and token the phone uses (show, copy, test, change), and the routes
+19. **Access**: the address and token the phone uses (show, copy, test, change), and the routes
     of the console's BatoX.
-19. **About the app** (in the side menu and the list of consoles): its version, **Report a
+20. **About the app** (in the side menu and the list of consoles): its version, **Report a
     problem** (a new GitHub issue with the app's and the phone's versions filled in, or an email
     for those without a GitHub account), the source code, the publisher, the privacy policy and
     the license.

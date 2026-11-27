@@ -2,7 +2,8 @@ import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { getConsoles, type ConsoleSystem } from '@/batox/api';
+import { getBios, getConsoles, type BiosSystem, type ConsoleSystem } from '@/batox/api';
+import { biosProgress, complete } from '@/batox/bios';
 import { useConsole } from '@/batox/console-context';
 import { recallConsoles, rememberConsoles } from '@/batox/console-list';
 import { Backdrop } from '@/components/backdrop';
@@ -16,12 +17,16 @@ import { colors, fonts, space, type } from '@/theme/tokens';
 const plural = (n: number, one: string, many: string) => `${n.toLocaleString()} ${n === 1 ? one : many}`;
 
 // One system: what es_systems.cfg says about it, its games and EmulationStation's statistics, its
-// ROM folder and the files it accepts; then its games, or an upload to it
+// ROM folder and the files it accepts, how many of its BIOS files are in place; then its games, an
+// upload to it, or its BIOS files
 export default function ConsoleDetail() {
   const { id, saved } = useConsole();
   const { name } = useLocalSearchParams<{ name: string }>();
   const [system, setSystem] = useState<ConsoleSystem | null>(() => recallConsoles(id)?.consoles.find((c) => c.name === name) ?? null);
   const [error, setError] = useState<string | null>(null);
+  // Its BIOS files: undefined while asking, null when Batocera's list has none for it, and left
+  // undefined when BatoX can't tell (an older BatoX), so the line doesn't show
+  const [bios, setBios] = useState<BiosSystem | null | undefined>(undefined);
 
   useEffect(() => {
     if (!saved || system) return;
@@ -34,6 +39,19 @@ export default function ConsoleDetail() {
       })
       .catch((e: Error) => setError(e.message));
   }, [id, saved, name, system]);
+
+  useEffect(() => {
+    if (!saved) return;
+    let live = true;
+    getBios(saved, name)
+      .then((l) => live && setBios(l.systems[0] ?? null))
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, [saved, name]);
+
+  const biosLine = bios === null ? "None in Batocera's list" : bios ? (complete(bios) ? biosProgress(bios) : `${bios.found} of ${plural(bios.total, 'file', 'files')} in place`) : '';
 
   const rows: [string, string, boolean?][] = system
     ? [
@@ -50,6 +68,7 @@ export default function ConsoleDetail() {
               ...(system.mostPlayed ? [['Most played', system.mostPlayed]] : []),
             ] as [string, string][])
           : []),
+        ...(biosLine ? ([['BIOS', biosLine]] as [string, string][]) : []),
         ['ROM folder', `${system.folder ?? ''}${system.folderExists === false ? '  (not created yet)' : ''}`, true],
       ]
     : [];
@@ -96,6 +115,7 @@ export default function ConsoleDetail() {
                 <Button primary label="Show games" onPress={() => router.navigate({ pathname: '/console/[id]/games', params: { id, system: system.name } })} />
               ) : null}
               <Button label="Upload games" onPress={() => router.push({ pathname: '/console/[id]/upload', params: { id, system: system.name } })} />
+              {bios ? <Button label="BIOS files" onPress={() => router.navigate({ pathname: '/console/[id]/bios', params: { id, system: system.name } })} /> : null}
             </View>
           </>
         ) : null}

@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- BIOS, in the side menu: each system's BIOS files from Batocera's own list, with a check on those
+  in place, a filter and a search, as on the web panel's BIOS screen. Files of any system, under
+  any name, go where Batocera looks for them, and each says where it went; a file in another
+  version can be deleted. A console's details show how many of its BIOS files are in place, with a
+  button to them. It needs a BatoX with the BIOS list; an older one says to update it.
+
 ### Changed
 
 - Expo 58.1 and the SDK's latest patches (expo-crypto, expo-dev-client, expo-image, expo-router,

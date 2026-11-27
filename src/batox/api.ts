@@ -234,6 +234,22 @@ export const getSystems = (e: Endpoint) => request<RomSystem[]>(e, '/systems?all
 export const getMusic = (e: Endpoint) => request<MusicLibrary>(e, '/music');
 export const deleteMusic = (e: Endpoint, path: string) => request<{ status: string; path: string }>(e, `/music?path=${encodeURIComponent(path)}`, { method: 'DELETE' });
 
+// --- BIOS ------------------------------------------------------------------------------------------
+
+// Each system's BIOS files from Batocera's own list (the one behind EmulationStation's Missing BIOS
+// Check): in place, missing, or there in another version than the one Batocera checks for
+export type BiosStatus = 'ok' | 'missing' | 'mismatch';
+export type BiosFile = { path: string; name: string; md5?: string; inside?: string[]; status: BiosStatus };
+export type BiosSystem = { name: string; title: string; fullName: string; games: number; found: number; total: number; files: BiosFile[] };
+export type BiosList = { dir: string; systems: BiosSystem[] };
+// Where an upload went: by its MD5 under every name that asks for it, else by its name, else into
+// the BIOS folder
+export type BiosUpload = { name: string; md5: string; match: 'md5' | 'name' | 'none'; saved: string[]; unchanged: string[]; systems: string[] };
+
+export const getBios = (e: Endpoint, system?: string) => request<BiosList>(e, `/bios${system ? `?system=${encodeURIComponent(system)}` : ''}`, { timeoutMs: 20000 });
+// Only a file of the list can go
+export const deleteBios = (e: Endpoint, path: string) => request<{ status: string; path: string }>(e, `/bios?path=${encodeURIComponent(path)}`, { method: 'DELETE' });
+
 // Restarts or turns off the console a second after answering (202)
 export const reboot = (e: Endpoint) => request<unknown>(e, '/reboot', { method: 'POST' });
 export const shutdown = (e: Endpoint) => request<unknown>(e, '/shutdown', { method: 'POST' });
